@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Davao del Sur | Booth Contributors</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Davao del Sur | Booth Contributions</title>
 
     <meta
         name="description"
@@ -12,22 +18,26 @@
     >
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
         rel="stylesheet"
     >
 
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
     <style>
 
-        /* =====================================================
-           ROOT
-        ===================================================== */
-
         :root {
+
             --forest: #103c2a;
             --forest-dark: #08271b;
             --forest-light: #1b5b3e;
@@ -50,16 +60,11 @@
             --danger-light: #fff0f0;
 
             --success: #2d8b57;
-            --success-light: #eaf7ef;
 
             --shadow:
-                0 15px 45px rgba(16, 60, 42, .09);
+                0 15px 45px rgba(16,60,42,.09);
         }
 
-
-        /* =====================================================
-           RESET
-        ===================================================== */
 
         * {
             box-sizing: border-box;
@@ -74,7 +79,10 @@
 
 
         body {
-            font-family: "DM Sans", sans-serif;
+
+            font-family:
+                "DM Sans",
+                sans-serif;
 
             background:
                 var(--cream);
@@ -95,11 +103,12 @@
         }
 
 
-        /* =====================================================
+        /* ================================
            NAVIGATION
-        ===================================================== */
+        ================================= */
 
         nav {
+
             position:
                 sticky;
 
@@ -121,21 +130,22 @@
             padding:
                 13px 6%;
 
-            color:
-                white;
-
             background:
-                rgba(16, 60, 42, .96);
+                rgba(16,60,42,.97);
 
             backdrop-filter:
                 blur(15px);
 
+            color:
+                white;
+
             box-shadow:
-                0 5px 25px rgba(0, 0, 0, .15);
+                0 5px 25px rgba(0,0,0,.15);
         }
 
 
         .logo {
+
             display:
                 flex;
 
@@ -154,6 +164,7 @@
 
 
         .logo-icon {
+
             width:
                 43px;
 
@@ -181,15 +192,17 @@
 
 
         .nav-links {
+
             display:
                 flex;
 
             gap:
-                26px;
+                28px;
         }
 
 
         .nav-links a {
+
             color:
                 white;
 
@@ -208,21 +221,23 @@
 
 
         .nav-links a:hover {
+
             color:
                 var(--gold-light);
         }
 
 
-        /* =====================================================
+        /* ================================
            HERO
-        ===================================================== */
+        ================================= */
 
         .hero {
-            min-height:
-                700px;
 
             position:
                 relative;
+
+            min-height:
+                680px;
 
             display:
                 flex;
@@ -237,12 +252,14 @@
                 hidden;
 
             background:
+
                 linear-gradient(
                     120deg,
-                    rgba(6, 38, 25, .98),
-                    rgba(17, 76, 49, .88),
-                    rgba(20, 70, 48, .72)
+                    rgba(6,38,25,.98),
+                    rgba(17,76,49,.88),
+                    rgba(20,70,48,.72)
                 ),
+
                 url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85");
 
             background-size:
@@ -254,6 +271,7 @@
 
 
         .hero::before {
+
             content:
                 "";
 
@@ -276,11 +294,12 @@
                 50%;
 
             background:
-                rgba(215, 166, 61, .08);
+                rgba(215,166,61,.08);
         }
 
 
         .hero::after {
+
             content:
                 "";
 
@@ -288,7 +307,7 @@
                 absolute;
 
             bottom:
-                -125px;
+                -120px;
 
             left:
                 -5%;
@@ -297,7 +316,7 @@
                 110%;
 
             height:
-                230px;
+                220px;
 
             background:
                 var(--cream);
@@ -308,6 +327,7 @@
 
 
         .hero-content {
+
             position:
                 relative;
 
@@ -323,17 +343,18 @@
 
 
         .hero-badge {
+
             display:
                 inline-block;
-
-            padding:
-                7px 15px;
 
             margin-bottom:
                 20px;
 
+            padding:
+                7px 15px;
+
             border:
-                1px solid rgba(255, 255, 255, .35);
+                1px solid rgba(255,255,255,.35);
 
             border-radius:
                 100px;
@@ -346,34 +367,35 @@
 
             letter-spacing:
                 2px;
-
-            text-transform:
-                uppercase;
         }
 
 
         .hero h1 {
-            font-family:
-                "Playfair Display", serif;
-
-            font-size:
-                clamp(48px, 8vw, 92px);
-
-            line-height:
-                .96;
 
             margin-bottom:
                 25px;
+
+            font-family:
+                "Playfair Display",
+                serif;
+
+            font-size:
+                clamp(48px,8vw,92px);
+
+            line-height:
+                .96;
         }
 
 
         .hero h1 span {
+
             color:
                 var(--gold-light);
         }
 
 
         .hero-description {
+
             max-width:
                 680px;
 
@@ -381,7 +403,7 @@
                 34px;
 
             color:
-                rgba(255, 255, 255, .87);
+                rgba(255,255,255,.87);
 
             font-size:
                 18px;
@@ -389,6 +411,7 @@
 
 
         .hero-buttons {
+
             display:
                 flex;
 
@@ -401,6 +424,7 @@
 
 
         .hero-button {
+
             display:
                 inline-block;
 
@@ -428,12 +452,14 @@
 
 
         .hero-button:hover {
+
             transform:
                 translateY(-3px);
         }
 
 
         .hero-button-primary {
+
             background:
                 var(--gold);
 
@@ -443,28 +469,31 @@
 
 
         .hero-button-secondary {
+
             background:
-                rgba(255, 255, 255, .1);
+                rgba(255,255,255,.1);
 
             border:
-                1px solid rgba(255, 255, 255, .35);
+                1px solid rgba(255,255,255,.35);
 
             color:
                 white;
         }
 
 
-        /* =====================================================
-           GENERAL SECTIONS
-        ===================================================== */
+        /* ================================
+           SECTIONS
+        ================================= */
 
         section {
+
             padding:
                 85px 7%;
         }
 
 
         .section-heading {
+
             max-width:
                 750px;
 
@@ -477,6 +506,7 @@
 
 
         .section-heading small {
+
             color:
                 var(--leaf);
 
@@ -488,21 +518,20 @@
 
             letter-spacing:
                 2px;
-
-            text-transform:
-                uppercase;
         }
 
 
         .section-heading h2 {
+
             margin:
                 8px 0 12px;
 
             font-family:
-                "Playfair Display", serif;
+                "Playfair Display",
+                serif;
 
             font-size:
-                clamp(35px, 5vw, 58px);
+                clamp(35px,5vw,58px);
 
             line-height:
                 1.1;
@@ -510,16 +539,18 @@
 
 
         .section-heading p {
+
             color:
                 var(--muted);
         }
 
 
-        /* =====================================================
+        /* ================================
            STATISTICS
-        ===================================================== */
+        ================================= */
 
         .stats {
+
             position:
                 relative;
 
@@ -530,7 +561,7 @@
                 grid;
 
             grid-template-columns:
-                repeat(3, 1fr);
+                repeat(3,1fr);
 
             max-width:
                 850px;
@@ -556,6 +587,7 @@
 
 
         .stat {
+
             padding:
                 30px;
 
@@ -568,20 +600,20 @@
 
 
         .stat:last-child {
+
             border-right:
                 none;
         }
 
 
         .stat-number {
+
             font-family:
-                "Playfair Display", serif;
+                "Playfair Display",
+                serif;
 
             font-size:
                 43px;
-
-            font-weight:
-                800;
 
             color:
                 var(--forest);
@@ -589,6 +621,7 @@
 
 
         .stat-label {
+
             color:
                 var(--muted);
 
@@ -600,17 +633,15 @@
 
             letter-spacing:
                 1px;
-
-            text-transform:
-                uppercase;
         }
 
 
-        /* =====================================================
+        /* ================================
            SEARCH
-        ===================================================== */
+        ================================= */
 
         .search-container {
+
             max-width:
                 700px;
 
@@ -620,12 +651,14 @@
 
 
         .search-box {
+
             position:
                 relative;
         }
 
 
         .search-box input {
+
             width:
                 100%;
 
@@ -648,23 +681,22 @@
                 15px;
 
             box-shadow:
-                0 8px 25px rgba(0, 0, 0, .04);
-
-            transition:
-                .2s;
+                0 8px 25px rgba(0,0,0,.04);
         }
 
 
         .search-box input:focus {
+
             border-color:
                 var(--leaf);
 
             box-shadow:
-                0 0 0 4px rgba(63, 141, 93, .1);
+                0 0 0 4px rgba(63,141,93,.1);
         }
 
 
         .search-icon {
+
             position:
                 absolute;
 
@@ -682,16 +714,17 @@
         }
 
 
-        /* =====================================================
+        /* ================================
            CONTRIBUTORS
-        ===================================================== */
+        ================================= */
 
         .contributor-list {
+
             display:
                 grid;
 
             grid-template-columns:
-                repeat(auto-fill, minmax(190px, 1fr));
+                repeat(auto-fill,minmax(190px,1fr));
 
             gap:
                 14px;
@@ -705,6 +738,7 @@
 
 
         .contributor {
+
             padding:
                 20px;
 
@@ -726,6 +760,7 @@
 
 
         .contributor:hover {
+
             transform:
                 translateY(-5px);
 
@@ -733,11 +768,12 @@
                 var(--leaf);
 
             box-shadow:
-                0 12px 35px rgba(16, 60, 42, .09);
+                0 12px 35px rgba(16,60,42,.09);
         }
 
 
         .contributor-name {
+
             color:
                 var(--forest);
 
@@ -747,6 +783,7 @@
 
 
         .contributor-count {
+
             margin-top:
                 4px;
 
@@ -758,16 +795,17 @@
         }
 
 
-        /* =====================================================
+        /* ================================
            GALLERY
-        ===================================================== */
+        ================================= */
 
         .gallery {
+
             display:
                 grid;
 
             grid-template-columns:
-                repeat(auto-fill, minmax(290px, 1fr));
+                repeat(auto-fill,minmax(290px,1fr));
 
             gap:
                 24px;
@@ -781,6 +819,7 @@
 
 
         .card {
+
             overflow:
                 hidden;
 
@@ -794,7 +833,7 @@
                 19px;
 
             box-shadow:
-                0 10px 35px rgba(16, 60, 42, .07);
+                0 10px 35px rgba(16,60,42,.07);
 
             transition:
                 .3s;
@@ -802,15 +841,17 @@
 
 
         .card:hover {
+
             transform:
                 translateY(-6px);
 
             box-shadow:
-                0 18px 45px rgba(16, 60, 42, .13);
+                0 18px 45px rgba(16,60,42,.13);
         }
 
 
         .media {
+
             position:
                 relative;
 
@@ -821,7 +862,7 @@
                 hidden;
 
             background:
-                #dcdcdc;
+                #ddd;
 
             cursor:
                 pointer;
@@ -830,6 +871,7 @@
 
         .media img,
         .media video {
+
             width:
                 100%;
 
@@ -844,28 +886,8 @@
         }
 
 
-        .media::after {
-            content:
-                "";
-
-            position:
-                absolute;
-
-            inset:
-                0;
-
-            background:
-                linear-gradient(
-                    transparent 65%,
-                    rgba(0, 0, 0, .18)
-                );
-
-            pointer-events:
-                none;
-        }
-
-
         .media-label {
+
             position:
                 absolute;
 
@@ -885,7 +907,7 @@
                 100px;
 
             background:
-                rgba(0, 0, 0, .7);
+                rgba(0,0,0,.7);
 
             color:
                 white;
@@ -899,12 +921,14 @@
 
 
         .card-content {
+
             padding:
                 21px;
         }
 
 
         .card h3 {
+
             margin-bottom:
                 7px;
 
@@ -914,6 +938,7 @@
 
 
         .card-description {
+
             min-height:
                 44px;
 
@@ -926,6 +951,7 @@
 
 
         .card-info {
+
             display:
                 flex;
 
@@ -953,12 +979,14 @@
 
 
         .card-info strong {
+
             color:
                 var(--forest);
         }
 
 
         .card-actions {
+
             display:
                 flex;
 
@@ -971,6 +999,7 @@
 
 
         .card-action {
+
             flex:
                 1;
 
@@ -991,13 +1020,11 @@
 
             cursor:
                 pointer;
-
-            transition:
-                .2s;
         }
 
 
         .edit-button {
+
             background:
                 #edf5ef;
 
@@ -1007,6 +1034,7 @@
 
 
         .delete-button {
+
             background:
                 var(--danger-light);
 
@@ -1015,17 +1043,12 @@
         }
 
 
-        .card-action:hover {
-            transform:
-                translateY(-2px);
-        }
-
-
-        /* =====================================================
-           UPLOAD SECTION
-        ===================================================== */
+        /* ================================
+           UPLOAD
+        ================================= */
 
         .upload-section {
+
             background:
                 var(--forest);
 
@@ -1035,6 +1058,7 @@
 
 
         .upload-container {
+
             max-width:
                 850px;
 
@@ -1045,10 +1069,10 @@
                 42px;
 
             background:
-                rgba(255, 255, 255, .06);
+                rgba(255,255,255,.06);
 
             border:
-                1px solid rgba(255, 255, 255, .14);
+                1px solid rgba(255,255,255,.14);
 
             border-radius:
                 25px;
@@ -1056,11 +1080,13 @@
 
 
         .upload-container h2 {
+
             margin-bottom:
                 8px;
 
             font-family:
-                "Playfair Display", serif;
+                "Playfair Display",
+                serif;
 
             font-size:
                 42px;
@@ -1068,15 +1094,17 @@
 
 
         .upload-container > p {
+
             margin-bottom:
                 30px;
 
             color:
-                rgba(255, 255, 255, .72);
+                rgba(255,255,255,.72);
         }
 
 
         .form-grid {
+
             display:
                 grid;
 
@@ -1089,12 +1117,14 @@
 
 
         .form-group {
+
             margin-bottom:
                 18px;
         }
 
 
         .form-group label {
+
             display:
                 block;
 
@@ -1111,6 +1141,7 @@
 
         .form-group input,
         .form-group textarea {
+
             width:
                 100%;
 
@@ -1121,13 +1152,13 @@
                 none;
 
             border:
-                1px solid rgba(255, 255, 255, .2);
+                1px solid rgba(255,255,255,.2);
 
             border-radius:
                 9px;
 
             background:
-                rgba(255, 255, 255, .08);
+                rgba(255,255,255,.08);
 
             color:
                 white;
@@ -1139,19 +1170,14 @@
 
         .form-group input::placeholder,
         .form-group textarea::placeholder {
+
             color:
-                rgba(255, 255, 255, .48);
-        }
-
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color:
-                var(--gold);
+                rgba(255,255,255,.48);
         }
 
 
         .form-group textarea {
+
             min-height:
                 120px;
 
@@ -1161,6 +1187,7 @@
 
 
         .file-area {
+
             padding:
                 30px;
 
@@ -1168,23 +1195,15 @@
                 center;
 
             border:
-                2px dashed rgba(255, 255, 255, .28);
+                2px dashed rgba(255,255,255,.28);
 
             border-radius:
                 14px;
-
-            transition:
-                .2s;
-        }
-
-
-        .file-area:hover {
-            border-color:
-                var(--gold);
         }
 
 
         .file-area-icon {
+
             margin-bottom:
                 8px;
 
@@ -1194,6 +1213,7 @@
 
 
         .file-area input {
+
             width:
                 100%;
 
@@ -1203,11 +1223,12 @@
 
 
         .file-help {
+
             margin-top:
                 10px;
 
             color:
-                rgba(255, 255, 255, .62);
+                rgba(255,255,255,.62);
 
             font-size:
                 12px;
@@ -1215,6 +1236,7 @@
 
 
         .video-status {
+
             margin-top:
                 10px;
 
@@ -1227,6 +1249,7 @@
 
 
         .submit-button {
+
             width:
                 100%;
 
@@ -1260,12 +1283,14 @@
 
 
         .submit-button:hover:not(:disabled) {
+
             transform:
                 translateY(-2px);
         }
 
 
         .submit-button:disabled {
+
             opacity:
                 .55;
 
@@ -1274,11 +1299,12 @@
         }
 
 
-        /* =====================================================
+        /* ================================
            PROGRESS
-        ===================================================== */
+        ================================= */
 
         .progress-container {
+
             display:
                 none;
 
@@ -1288,6 +1314,7 @@
 
 
         .progress-bar {
+
             height:
                 8px;
 
@@ -1298,11 +1325,12 @@
                 100px;
 
             background:
-                rgba(255, 255, 255, .15);
+                rgba(255,255,255,.15);
         }
 
 
         .progress-fill {
+
             width:
                 0%;
 
@@ -1318,22 +1346,79 @@
 
 
         .progress-text {
+
             margin-top:
                 6px;
 
             color:
-                rgba(255, 255, 255, .7);
+                rgba(255,255,255,.7);
 
             font-size:
                 12px;
         }
 
 
-        /* =====================================================
+        /* ================================
+           LOADING
+        ================================= */
+
+        .loading {
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                70px 20px;
+
+            text-align:
+                center;
+
+            color:
+                var(--muted);
+        }
+
+
+        .spinner {
+
+            width:
+                38px;
+
+            height:
+                38px;
+
+            margin:
+                0 auto 15px;
+
+            border:
+                4px solid #e3e8e4;
+
+            border-top-color:
+                var(--forest);
+
+            border-radius:
+                50%;
+
+            animation:
+                spin 1s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
+
+        /* ================================
            EMPTY
-        ===================================================== */
+        ================================= */
 
         .empty {
+
             grid-column:
                 1 / -1;
 
@@ -1349,6 +1434,7 @@
 
 
         .empty-icon {
+
             margin-bottom:
                 10px;
 
@@ -1357,11 +1443,69 @@
         }
 
 
-        /* =====================================================
+        /* ================================
+           ERROR
+        ================================= */
+
+        .database-error {
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                35px;
+
+            border:
+                1px solid #efb1b1;
+
+            border-radius:
+                15px;
+
+            background:
+                #fff3f3;
+
+            color:
+                #8f2525;
+
+            text-align:
+                center;
+        }
+
+
+        .database-error code {
+
+            display:
+                block;
+
+            margin-top:
+                12px;
+
+            padding:
+                12px;
+
+            overflow:
+                auto;
+
+            border-radius:
+                8px;
+
+            background:
+                #ffe4e4;
+
+            font-size:
+                12px;
+
+            text-align:
+                left;
+        }
+
+
+        /* ================================
            MODAL
-        ===================================================== */
+        ================================= */
 
         .modal {
+
             position:
                 fixed;
 
@@ -1384,17 +1528,19 @@
                 30px;
 
             background:
-                rgba(0, 0, 0, .84);
+                rgba(0,0,0,.84);
         }
 
 
         .modal.active {
+
             display:
                 flex;
         }
 
 
         .modal-content {
+
             position:
                 relative;
 
@@ -1408,6 +1554,7 @@
 
         .modal-content img,
         .modal-content video {
+
             display:
                 block;
 
@@ -1423,6 +1570,7 @@
 
 
         .close-modal {
+
             position:
                 absolute;
 
@@ -1458,11 +1606,12 @@
         }
 
 
-        /* =====================================================
+        /* ================================
            TOAST
-        ===================================================== */
+        ================================= */
 
         .toast {
+
             position:
                 fixed;
 
@@ -1476,10 +1625,10 @@
                 7000;
 
             max-width:
-                360px;
+                420px;
 
             padding:
-                15px 18px;
+                16px 20px;
 
             border-radius:
                 12px;
@@ -1491,7 +1640,7 @@
                 white;
 
             box-shadow:
-                0 15px 40px rgba(0, 0, 0, .25);
+                0 15px 40px rgba(0,0,0,.25);
 
             transform:
                 translateY(130px);
@@ -1505,6 +1654,7 @@
 
 
         .toast.show {
+
             transform:
                 translateY(0);
 
@@ -1513,23 +1663,26 @@
         }
 
 
-        .toast.success {
-            border-left:
-                4px solid var(--gold);
-        }
-
-
         .toast.error {
+
             border-left:
                 4px solid #ff6767;
         }
 
 
-        /* =====================================================
+        .toast.success {
+
+            border-left:
+                4px solid var(--gold);
+        }
+
+
+        /* ================================
            FOOTER
-        ===================================================== */
+        ================================= */
 
         footer {
+
             padding:
                 35px 20px;
 
@@ -1540,7 +1693,7 @@
                 var(--forest-dark);
 
             color:
-                rgba(255, 255, 255, .68);
+                rgba(255,255,255,.68);
 
             font-size:
                 13px;
@@ -1548,30 +1701,34 @@
 
 
         footer strong {
+
             color:
                 white;
         }
 
 
-        /* =====================================================
+        /* ================================
            MOBILE
-        ===================================================== */
+        ================================= */
 
-        @media(max-width: 700px) {
+        @media(max-width:700px) {
 
             nav {
+
                 padding:
                     12px 5%;
             }
 
 
             .nav-links {
+
                 display:
                     none;
             }
 
 
             .hero {
+
                 min-height:
                     620px;
 
@@ -1581,12 +1738,14 @@
 
 
             section {
+
                 padding:
                     65px 5%;
             }
 
 
             .stats {
+
                 grid-template-columns:
                     1fr;
 
@@ -1599,6 +1758,7 @@
 
 
             .stat {
+
                 border-right:
                     none;
 
@@ -1608,24 +1768,28 @@
 
 
             .stat:last-child {
+
                 border-bottom:
                     none;
             }
 
 
             .form-grid {
+
                 grid-template-columns:
                     1fr;
             }
 
 
             .upload-container {
+
                 padding:
                     25px;
             }
 
 
             .toast {
+
                 left:
                     15px;
 
@@ -1642,6 +1806,7 @@
         }
 
     </style>
+
 </head>
 
 
@@ -1650,7 +1815,7 @@
 
 <!-- =====================================================
      NAVIGATION
-====================================================== -->
+===================================================== -->
 
 <nav>
 
@@ -1686,20 +1851,26 @@
 
 <!-- =====================================================
      HERO
-====================================================== -->
+===================================================== -->
 
 <header class="hero">
 
     <div class="hero-content">
 
         <div class="hero-badge">
-            SPECIAL CONTRIBUTIONS
+            SPECIAL BOOTH CONTRIBUTIONS
         </div>
 
 
         <h1>
+
             Our Booth.<br>
-            Our <span>Story.</span>
+
+            Our
+            <span>
+                Story.
+            </span>
+
         </h1>
 
 
@@ -1738,15 +1909,15 @@
 
 <!-- =====================================================
      STATISTICS
-====================================================== -->
+===================================================== -->
 
 <div class="stats">
 
     <div class="stat">
 
         <div
-            class="stat-number"
             id="totalContributions"
+            class="stat-number"
         >
             0
         </div>
@@ -1761,8 +1932,8 @@
     <div class="stat">
 
         <div
-            class="stat-number"
             id="totalContributors"
+            class="stat-number"
         >
             0
         </div>
@@ -1777,8 +1948,8 @@
     <div class="stat">
 
         <div
-            class="stat-number"
             id="totalMedia"
+            class="stat-number"
         >
             0
         </div>
@@ -1794,7 +1965,7 @@
 
 <!-- =====================================================
      CONTRIBUTORS
-====================================================== -->
+===================================================== -->
 
 <section id="contributors">
 
@@ -1843,11 +2014,9 @@
         class="contributor-list"
     >
 
-        <div class="empty">
+        <div class="loading">
 
-            <div class="empty-icon">
-                🌿
-            </div>
+            <div class="spinner"></div>
 
             Loading contributors...
 
@@ -1860,7 +2029,7 @@
 
 <!-- =====================================================
      GALLERY
-====================================================== -->
+===================================================== -->
 
 <section id="gallery">
 
@@ -1889,11 +2058,9 @@
         class="gallery"
     >
 
-        <div class="empty">
+        <div class="loading">
 
-            <div class="empty-icon">
-                🌿
-            </div>
+            <div class="spinner"></div>
 
             Loading contributions...
 
@@ -1905,8 +2072,8 @@
 
 
 <!-- =====================================================
-     UPLOAD SECTION
-====================================================== -->
+     UPLOAD
+===================================================== -->
 
 <section
     id="upload"
@@ -1928,8 +2095,6 @@
 
         <form id="contributionForm">
 
-
-            <!-- NAME + GROUP -->
 
             <div class="form-grid">
 
@@ -1970,8 +2135,6 @@
             </div>
 
 
-            <!-- DESCRIPTION -->
-
             <div class="form-group">
 
                 <label for="description">
@@ -1981,14 +2144,12 @@
 
                 <textarea
                     id="description"
-                    placeholder="Example: I helped paint the Mount Apo background and arranged the booth decorations."
+                    placeholder="Example: I helped paint the Mount Apo background and arrange the decorations."
                     required
                 ></textarea>
 
             </div>
 
-
-            <!-- MEDIA -->
 
             <div class="form-group">
 
@@ -2018,8 +2179,12 @@
 
 
                     <div class="file-help">
+
                         Photos are allowed.
-                        Videos must be 5 minutes or shorter.
+
+                        Videos must be
+                        5 minutes or shorter.
+
                     </div>
 
 
@@ -2032,8 +2197,6 @@
 
             </div>
 
-
-            <!-- PROGRESS -->
 
             <div
                 id="progressContainer"
@@ -2054,14 +2217,12 @@
                     id="progressText"
                     class="progress-text"
                 >
-                    Preparing upload...
+                    Preparing...
 
                 </div>
 
             </div>
 
-
-            <!-- SUBMIT -->
 
             <button
                 type="submit"
@@ -2070,7 +2231,6 @@
             >
                 SUBMIT CONTRIBUTION
             </button>
-
 
         </form>
 
@@ -2081,7 +2241,7 @@
 
 <!-- =====================================================
      MEDIA MODAL
-====================================================== -->
+===================================================== -->
 
 <div
     id="mediaModal"
@@ -2107,7 +2267,7 @@
 
 <!-- =====================================================
      TOAST
-====================================================== -->
+===================================================== -->
 
 <div
     id="toast"
@@ -2117,7 +2277,7 @@
 
 <!-- =====================================================
      FOOTER
-====================================================== -->
+===================================================== -->
 
 <footer>
 
@@ -2125,15 +2285,11 @@
         DAVAO DEL SUR • SPECIAL CONTRIBUTIONS
     </strong>
 
-
     <br><br>
-
 
     Built through teamwork, creativity, and pride.
 
-
     <br><br>
-
 
     © 2026 Davao del Sur Booth Project
 
@@ -2142,17 +2298,27 @@
 
 <script>
 
-/* =========================================================
+/* =====================================================
    SUPABASE CONFIGURATION
-=========================================================
+===================================================== */
 
+/*
    IMPORTANT:
 
-   Replace these two values with your actual Supabase
-   Project URL and Anon / Publishable Key.
+   Replace the two values below.
 
-   NEVER put your Supabase SERVICE ROLE KEY here.
-========================================================= */
+   Supabase Dashboard
+   → Project Settings
+   → API
+
+   Use:
+
+   Project URL
+
+   and
+
+   Publishable / Anon Key
+*/
 
 
 const SUPABASE_URL =
@@ -2163,45 +2329,102 @@ const SUPABASE_ANON_KEY =
     "YOUR_SUPABASE_ANON_KEY";
 
 
-const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
+/* =====================================================
+   SUPABASE INITIALIZATION
+===================================================== */
 
 /*
-    Maximum video duration.
+   This is intentionally written as:
 
-    5 minutes = 300 seconds.
+   window.supabase.createClient()
+
+   instead of:
+
+   supabase.createClient()
+
+   to avoid conflicts with the Supabase CDN.
 */
+
+
+let supabaseClient = null;
+
+
+function initializeSupabase() {
+
+    try {
+
+        if (
+            !window.supabase
+        ) {
+
+            throw new Error(
+                "Supabase library did not load."
+            );
+
+        }
+
+
+        if (
+            SUPABASE_URL ===
+                "YOUR_SUPABASE_PROJECT_URL" ||
+
+            SUPABASE_ANON_KEY ===
+                "YOUR_SUPABASE_ANON_KEY"
+        ) {
+
+            throw new Error(
+                "Supabase URL or API key has not been configured."
+            );
+
+        }
+
+
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+
+
+        return true;
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Supabase initialization error:",
+            error
+        );
+
+
+        showConnectionError(
+            error.message
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
 
 const MAX_VIDEO_SECONDS =
     5 * 60;
 
 
 /*
-    Basic administrator PIN.
-
-    CHANGE THIS.
-
-    Example:
-
-    const ADMIN_PIN = "847291";
+   CHANGE THIS PIN.
 */
 
 const ADMIN_PIN =
     "123456";
-
-
-/* =========================================================
-   VARIABLES
-========================================================= */
 
 
 let contributions = [];
@@ -2209,74 +2432,329 @@ let contributions = [];
 let editingId = null;
 
 
-/* =========================================================
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        /*
+           First initialize Supabase.
+        */
+
+        const initialized =
+            initializeSupabase();
+
+
+        if (!initialized) {
+
+            return;
+
+        }
+
+
+        /*
+           Then load the data.
+        */
+
+        await loadContributions();
+
+    }
+);
+
+
+/* =====================================================
    LOAD CONTRIBUTIONS
-========================================================= */
+===================================================== */
 
 
 async function loadContributions() {
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("contributions")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+    /*
+       Show loading state.
+    */
+
+    showLoading();
 
 
-    if (error) {
+    try {
+
+        console.log(
+            "Loading contributions from Supabase..."
+        );
+
+
+        const response =
+            await supabaseClient
+                .from("contributions")
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending:
+                            false
+                    }
+                );
+
+
+        console.log(
+            "Supabase response:",
+            response
+        );
+
+
+        const data =
+            response.data;
+
+
+        const error =
+            response.error;
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        contributions =
+            data || [];
+
+
+        console.log(
+            "Contributions loaded:",
+            contributions
+        );
+
+
+        updateStatistics();
+
+        displayContributors();
+
+        displayGallery(
+            contributions
+        );
+
+
+    }
+
+    catch(error) {
 
         console.error(
-            "Database error:",
+            "Unable to load contributions:",
             error
         );
 
 
-        showDatabaseError();
-
-        return;
+        showDatabaseError(
+            error
+        );
 
     }
-
-
-    contributions =
-        data || [];
-
-
-    updateStatistics();
-
-    displayContributors();
-
-    displayGallery(
-        contributions
-    );
 
 }
 
 
-/* =========================================================
-   UPDATE STATISTICS
-========================================================= */
+/* =====================================================
+   LOADING SCREEN
+===================================================== */
+
+
+function showLoading() {
+
+    document
+        .getElementById(
+            "contributorList"
+        )
+        .innerHTML = `
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                Loading contributors...
+
+            </div>
+        `;
+
+
+    document
+        .getElementById(
+            "galleryContainer"
+        )
+        .innerHTML = `
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                Loading contributions...
+
+            </div>
+        `;
+
+}
+
+
+/* =====================================================
+   DATABASE ERROR
+===================================================== */
+
+
+function showConnectionError(
+    message
+) {
+
+    document
+        .getElementById(
+            "contributorList"
+        )
+        .innerHTML = `
+
+            <div class="database-error">
+
+                <h3>
+                    ⚠️ Supabase Connection Error
+                </h3>
+
+                <p>
+                    The website could not connect
+                    to Supabase.
+                </p>
+
+                <code>
+                    ${escapeHTML(message)}
+                </code>
+
+            </div>
+        `;
+
+
+    document
+        .getElementById(
+            "galleryContainer"
+        )
+        .innerHTML = `
+
+            <div class="database-error">
+
+                <h3>
+                    ⚠️ Database Connection Error
+                </h3>
+
+                <p>
+                    Check the Supabase URL and
+                    Publishable/Anon Key in index.html.
+                </p>
+
+                <code>
+                    ${escapeHTML(message)}
+                </code>
+
+            </div>
+        `;
+
+}
+
+
+/* =====================================================
+   DATABASE ERROR
+===================================================== */
+
+
+function showDatabaseError(
+    error
+) {
+
+    const message =
+        error?.message ||
+        "Unknown database error.";
+
+
+    document
+        .getElementById(
+            "contributorList"
+        )
+        .innerHTML = `
+
+            <div class="database-error">
+
+                <h3>
+                    ⚠️ Could Not Load Contributors
+                </h3>
+
+                <p>
+                    Supabase returned an error
+                    while reading the database.
+                </p>
+
+                <code>
+                    ${escapeHTML(message)}
+                </code>
+
+            </div>
+        `;
+
+
+    document
+        .getElementById(
+            "galleryContainer"
+        )
+        .innerHTML = `
+
+            <div class="database-error">
+
+                <h3>
+                    ⚠️ Could Not Load Contributions
+                </h3>
+
+                <p>
+                    Your uploads may exist in Supabase,
+                    but the website cannot read the table.
+                </p>
+
+                <code>
+                    ${escapeHTML(message)}
+                </code>
+
+            </div>
+        `;
+
+}
+
+
+/* =====================================================
+   STATISTICS
+===================================================== */
 
 
 function updateStatistics() {
 
-    const uniqueNames =
-        new Set(
-            contributions.map(
-                item =>
+    const names =
+        new Set();
+
+
+    contributions.forEach(
+        item => {
+
+            if (
+                item.name
+            ) {
+
+                names.add(
                     item.name
                         .trim()
                         .toLowerCase()
-            )
-        );
+                );
+
+            }
+
+        }
+    );
 
 
     document
@@ -2292,7 +2770,7 @@ function updateStatistics() {
             "totalContributors"
         )
         .textContent =
-            uniqueNames.size;
+            names.size;
 
 
     document
@@ -2305,9 +2783,9 @@ function updateStatistics() {
 }
 
 
-/* =========================================================
-   DISPLAY CONTRIBUTORS
-========================================================= */
+/* =====================================================
+   CONTRIBUTORS
+===================================================== */
 
 
 function displayContributors(
@@ -2328,10 +2806,15 @@ function displayContributors(
         item => {
 
             const name =
-                item.name.trim();
+                (
+                    item.name ||
+                    "Unknown Contributor"
+                ).trim();
 
 
-            if (!grouped[name]) {
+            if (
+                !grouped[name]
+            ) {
 
                 grouped[name] =
                     0;
@@ -2358,12 +2841,15 @@ function displayContributors(
                     )
         )
         .sort(
-            ([a], [b]) =>
+            ([a],[b]) =>
                 a.localeCompare(b)
         );
 
 
-    if (!people.length) {
+    if (
+        people.length ===
+        0
+    ) {
 
         container.innerHTML = `
 
@@ -2373,11 +2859,11 @@ function displayContributors(
                     👤
                 </div>
 
-                No contributors found.
+                No contributors yet.
 
             </div>
-
         `;
+
 
         return;
 
@@ -2389,7 +2875,7 @@ function displayContributors(
 
 
     people.forEach(
-        ([name, count]) => {
+        ([name,count]) => {
 
             const element =
                 document.createElement(
@@ -2414,7 +2900,6 @@ function displayContributors(
                 <div class="contributor-count">
 
                     ${count}
-
                     contribution${
 
                         count === 1
@@ -2430,7 +2915,7 @@ function displayContributors(
 
             element.addEventListener(
                 "click",
-                () => {
+                function() {
 
                     document
                         .getElementById(
@@ -2440,12 +2925,16 @@ function displayContributors(
                             name;
 
 
-                    displayGallery(
+                    const filtered =
                         contributions.filter(
                             item =>
                                 item.name ===
                                 name
-                        )
+                        );
+
+
+                    displayGallery(
+                        filtered
                     );
 
 
@@ -2472,9 +2961,9 @@ function displayContributors(
 }
 
 
-/* =========================================================
-   DISPLAY GALLERY
-========================================================= */
+/* =====================================================
+   GALLERY
+===================================================== */
 
 
 function displayGallery(
@@ -2487,7 +2976,10 @@ function displayGallery(
         );
 
 
-    if (!items.length) {
+    if (
+        !items ||
+        items.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -2497,11 +2989,9 @@ function displayGallery(
                     📸
                 </div>
 
-
                 <h3>
                     No contributions yet.
                 </h3>
-
 
                 <p>
                     Be the first student to
@@ -2509,8 +2999,8 @@ function displayGallery(
                 </p>
 
             </div>
-
         `;
+
 
         return;
 
@@ -2534,22 +3024,32 @@ function displayGallery(
                 "card";
 
 
-            const isVideo =
+            const mediaType =
                 item.media_type ===
-                "video";
+                "video"
+                    ? "video"
+                    : "image";
+
+
+            const mediaURL =
+                item.media_url ||
+                "";
 
 
             let mediaHTML;
 
 
-            if (isVideo) {
+            if (
+                mediaType ===
+                "video"
+            ) {
 
                 mediaHTML = `
 
                     <div
                         class="media"
                         onclick="openMedia(
-                            '${escapeAttribute(item.media_url)}',
+                            ${JSON.stringify(mediaURL)},
                             'video'
                         )"
                     >
@@ -2566,25 +3066,24 @@ function displayGallery(
                         >
 
                             <source
-                                src="${escapeAttribute(
-                                    item.media_url
-                                )}"
+                                src="${escapeAttribute(mediaURL)}"
                             >
 
                         </video>
 
                     </div>
-
                 `;
 
-            } else {
+            }
+
+            else {
 
                 mediaHTML = `
 
                     <div
                         class="media"
                         onclick="openMedia(
-                            '${escapeAttribute(item.media_url)}',
+                            ${JSON.stringify(mediaURL)},
                             'image'
                         )"
                     >
@@ -2595,38 +3094,56 @@ function displayGallery(
 
 
                         <img
-                            src="${escapeAttribute(
-                                item.media_url
-                            )}"
-                            alt="${escapeAttribute(
-                                item.name
-                            )}"
+                            src="${escapeAttribute(mediaURL)}"
+                            alt="Contribution from ${escapeAttribute(item.name)}"
                             loading="lazy"
+                            onerror="this.style.display='none';"
                         >
 
                     </div>
-
                 `;
 
             }
 
 
-            const date =
-                new Date(
-                    item.created_at
-                ).toLocaleDateString(
-                    "en-PH",
-                    {
-                        year:
-                            "numeric",
+            let formattedDate =
+                "";
 
-                        month:
-                            "long",
 
-                        day:
-                            "numeric"
-                    }
-                );
+            if (
+                item.created_at
+            ) {
+
+                const date =
+                    new Date(
+                        item.created_at
+                    );
+
+
+                if (
+                    !isNaN(
+                        date.getTime()
+                    )
+                ) {
+
+                    formattedDate =
+                        date.toLocaleDateString(
+                            "en-PH",
+                            {
+                                year:
+                                    "numeric",
+
+                                month:
+                                    "short",
+
+                                day:
+                                    "numeric"
+                            }
+                        );
+
+                }
+
+            }
 
 
             card.innerHTML = `
@@ -2636,10 +3153,10 @@ function displayGallery(
 
                 <div class="card-content">
 
-
                     <h3>
                         ${escapeHTML(
-                            item.name
+                            item.name ||
+                            "Unknown Contributor"
                         )}
                     </h3>
 
@@ -2647,7 +3164,8 @@ function displayGallery(
                     <div class="card-description">
 
                         ${escapeHTML(
-                            item.description
+                            item.description ||
+                            "No description provided."
                         )}
 
                     </div>
@@ -2660,16 +3178,21 @@ function displayGallery(
                             👥
 
                             <strong>
+
                                 ${escapeHTML(
-                                    item.group_name
+                                    item.group_name ||
+                                    "No group"
                                 )}
+
                             </strong>
 
                         </span>
 
 
                         <span>
-                            ${date}
+                            ${escapeHTML(
+                                formattedDate
+                            )}
                         </span>
 
                     </div>
@@ -2679,11 +3202,9 @@ function displayGallery(
 
                         <button
                             class="card-action edit-button"
-                            onclick="editContribution(
-                                '${escapeAttribute(
-                                    item.id
-                                )}'
-                            )"
+                            type="button"
+                            data-action="edit"
+                            data-id="${escapeAttribute(item.id)}"
                         >
                             ✏ EDIT
                         </button>
@@ -2691,21 +3212,63 @@ function displayGallery(
 
                         <button
                             class="card-action delete-button"
-                            onclick="deleteContribution(
-                                '${escapeAttribute(
-                                    item.id
-                                )}'
-                            )"
+                            type="button"
+                            data-action="delete"
+                            data-id="${escapeAttribute(item.id)}"
                         >
                             🗑 DELETE
                         </button>
 
                     </div>
 
-
                 </div>
-
             `;
+
+
+            /*
+                Attach button events instead of putting
+                complicated JavaScript directly inside HTML.
+            */
+
+
+            const editButton =
+                card.querySelector(
+                    '[data-action="edit"]'
+                );
+
+
+            const deleteButton =
+                card.querySelector(
+                    '[data-action="delete"]'
+                );
+
+
+            editButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    editContribution(
+                        item.id
+                    );
+
+                }
+            );
+
+
+            deleteButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    deleteContribution(
+                        item.id
+                    );
+
+                }
+            );
 
 
             container.appendChild(
@@ -2718,9 +3281,81 @@ function displayGallery(
 }
 
 
-/* =========================================================
-   VIDEO FILE CHECK
-========================================================= */
+/* =====================================================
+   VIDEO DURATION
+===================================================== */
+
+
+function getVideoDuration(
+    file
+) {
+
+    return new Promise(
+        (
+            resolve,
+            reject
+        ) => {
+
+            const video =
+                document.createElement(
+                    "video"
+                );
+
+
+            const objectURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            video.preload =
+                "metadata";
+
+
+            video.onloadedmetadata =
+                function() {
+
+                    URL.revokeObjectURL(
+                        objectURL
+                    );
+
+
+                    resolve(
+                        video.duration
+                    );
+
+                };
+
+
+            video.onerror =
+                function() {
+
+                    URL.revokeObjectURL(
+                        objectURL
+                    );
+
+
+                    reject(
+                        new Error(
+                            "The browser could not read the video duration."
+                        )
+                    );
+
+                };
+
+
+            video.src =
+                objectURL;
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   FILE SELECTION
+===================================================== */
 
 
 document
@@ -2747,11 +3382,17 @@ document
                 );
 
 
-            status.textContent =
-                "";
+            if (
+                !file
+            ) {
+
+                status.textContent =
+                    "";
 
 
-            if (!file) {
+                button.disabled =
+                    false;
+
 
                 return;
 
@@ -2790,7 +3431,7 @@ document
                     ) {
 
                         status.textContent =
-                            "❌ Video is longer than 5 minutes.";
+                            "❌ This video is longer than 5 minutes.";
 
 
                         status.style.color =
@@ -2824,7 +3465,7 @@ document
 
 
                     status.textContent =
-                        `✅ Video accepted — ${minutes}:${seconds} / 5:00`;
+                        `✅ Video accepted — ${minutes}:${seconds} / 5:00 maximum`;
 
 
                     status.style.color =
@@ -2834,8 +3475,9 @@ document
                     button.disabled =
                         false;
 
+                }
 
-                } catch(error) {
+                catch(error) {
 
                     console.error(
                         error
@@ -2843,11 +3485,11 @@ document
 
 
                     status.textContent =
-                        "⚠ Unable to read the video duration.";
+                        "❌ Could not read the video duration.";
 
 
                     status.style.color =
-                        "#ffcf70";
+                        "#ff8585";
 
 
                     button.disabled =
@@ -2855,8 +3497,9 @@ document
 
                 }
 
+            }
 
-            } else {
+            else {
 
                 status.textContent =
                     "✅ Photo selected.";
@@ -2875,77 +3518,9 @@ document
     );
 
 
-/* =========================================================
-   GET VIDEO DURATION
-========================================================= */
-
-
-function getVideoDuration(
-    file
-) {
-
-    return new Promise(
-        (
-            resolve,
-            reject
-        ) => {
-
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-
-            video.preload =
-                "metadata";
-
-
-            video.onloadedmetadata =
-                () => {
-
-                    URL.revokeObjectURL(
-                        video.src
-                    );
-
-
-                    resolve(
-                        video.duration
-                    );
-
-                };
-
-
-            video.onerror =
-                () => {
-
-                    URL.revokeObjectURL(
-                        video.src
-                    );
-
-
-                    reject(
-                        new Error(
-                            "Unable to read video."
-                        )
-                    );
-
-                };
-
-
-            video.src =
-                URL.createObjectURL(
-                    file
-                );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   SUBMIT / UPDATE
-========================================================= */
+/* =====================================================
+   SUBMIT
+===================================================== */
 
 
 document
@@ -2959,10 +3534,46 @@ document
             event.preventDefault();
 
 
-            const button =
-                document.getElementById(
-                    "submitButton"
+            if (
+                !supabaseClient
+            ) {
+
+                showToast(
+                    "Supabase is not connected.",
+                    "error"
                 );
+
+
+                return;
+
+            }
+
+
+            const name =
+                document
+                    .getElementById(
+                        "name"
+                    )
+                    .value
+                    .trim();
+
+
+            const groupName =
+                document
+                    .getElementById(
+                        "groupName"
+                    )
+                    .value
+                    .trim();
+
+
+            const description =
+                document
+                    .getElementById(
+                        "description"
+                    )
+                    .value
+                    .trim();
 
 
             const file =
@@ -2973,7 +3584,32 @@ document
                     .files[0];
 
 
-            if (!file) {
+            const button =
+                document.getElementById(
+                    "submitButton"
+                );
+
+
+            if (
+                !name ||
+                !groupName ||
+                !description
+            ) {
+
+                showToast(
+                    "Please complete all fields.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            if (
+                !file
+            ) {
 
                 showToast(
                     "Please select a photo or video.",
@@ -2991,29 +3627,32 @@ document
 
 
             button.textContent =
-                editingId
-                    ? "UPDATING..."
-                    : "UPLOADING...";
+                "UPLOADING...";
+
+
+            document
+                .getElementById(
+                    "progressContainer"
+                )
+                .style.display =
+                    "block";
 
 
             try {
 
-                /*
-                    Validate video again.
-                */
-
-                const mediaType =
-                    file.type.startsWith(
-                        "video/"
-                    )
-                        ? "video"
-                        : "image";
+                let mediaType =
+                    "image";
 
 
                 if (
-                    mediaType ===
-                    "video"
+                    file.type.startsWith(
+                        "video/"
+                    )
                 ) {
+
+                    mediaType =
+                        "video";
+
 
                     const duration =
                         await getVideoDuration(
@@ -3035,8 +3674,14 @@ document
                 }
 
 
+                updateProgress(
+                    15,
+                    "Preparing upload..."
+                );
+
+
                 /*
-                    Create unique file name.
+                    Create a unique storage filename.
                 */
 
                 const extension =
@@ -3046,199 +3691,185 @@ document
                         .toLowerCase();
 
 
-                const fileName =
-                    `${crypto.randomUUID()}.${extension}`;
+                const uniqueName =
+                    `${Date.now()}-${crypto.randomUUID()}.${extension}`;
 
 
-                /*
-                    Start progress.
-                */
+                console.log(
+                    "Uploading file:",
+                    uniqueName
+                );
+
 
                 updateProgress(
-                    15,
-                    "Uploading media..."
+                    25,
+                    "Uploading photo/video..."
                 );
 
 
                 /*
-                    Upload to Supabase Storage.
+                    Upload media.
                 */
 
-                const {
-                    error:
-                    uploadError
-                } =
+                const uploadResult =
                     await supabaseClient
                         .storage
                         .from(
                             "contributions"
                         )
                         .upload(
-                            fileName,
+                            uniqueName,
                             file,
                             {
                                 cacheControl:
                                     "3600",
 
                                 upsert:
-                                    false
+                                    false,
+
+                                contentType:
+                                    file.type
                             }
                         );
 
 
                 if (
-                    uploadError
+                    uploadResult.error
                 ) {
 
-                    throw uploadError;
+                    throw new Error(
+                        "Storage upload failed: " +
+                        uploadResult.error.message
+                    );
 
                 }
 
 
+                console.log(
+                    "Storage upload successful."
+                );
+
+
                 updateProgress(
-                    70,
-                    "Saving contribution..."
+                    65,
+                    "Creating contribution..."
                 );
 
 
                 /*
-                    Get public media URL.
+                    Generate public URL.
                 */
 
-                const {
-                    data:
-                    publicData
-                } =
+                const publicResult =
                     supabaseClient
                         .storage
                         .from(
                             "contributions"
                         )
                         .getPublicUrl(
-                            fileName
+                            uniqueName
                         );
 
 
                 const mediaURL =
-                    publicData.publicUrl;
+                    publicResult.data.publicUrl;
+
+
+                console.log(
+                    "Public URL:",
+                    mediaURL
+                );
 
 
                 /*
-                    Form data.
+                    Insert database record.
                 */
 
-                const payload = {
+                const insertResult =
+                    await supabaseClient
+                        .from(
+                            "contributions"
+                        )
+                        .insert({
+                            name:
+                                name,
 
-                    name:
-                        document
-                            .getElementById(
-                                "name"
-                            )
-                            .value
-                            .trim(),
+                            group_name:
+                                groupName,
 
-                    group_name:
-                        document
-                            .getElementById(
-                                "groupName"
-                            )
-                            .value
-                            .trim(),
+                            description:
+                                description,
 
-                    description:
-                        document
-                            .getElementById(
-                                "description"
-                            )
-                            .value
-                            .trim(),
+                            media_url:
+                                mediaURL,
 
-                    media_url:
-                        mediaURL,
-
-                    media_type:
-                        mediaType
-
-                };
+                            media_type:
+                                mediaType
+                        })
+                        .select()
+                        .single();
 
 
-                /*
-                    UPDATE existing contribution.
-                */
+                if (
+                    insertResult.error
+                ) {
 
-                if (editingId) {
+                    /*
+                       If database insertion fails,
+                       try removing the uploaded file.
+                    */
 
-                    const {
-                        error
-                    } =
-                        await supabaseClient
-                            .from(
-                                "contributions"
-                            )
-                            .update(
-                                payload
-                            )
-                            .eq(
-                                "id",
-                                editingId
-                            );
+                    await supabaseClient
+                        .storage
+                        .from(
+                            "contributions"
+                        )
+                        .remove([
+                            uniqueName
+                        ]);
 
 
-                    if (error) {
-
-                        throw error;
-
-                    }
-
-
-                    editingId =
-                        null;
-
-
-                    showToast(
-                        "Contribution updated successfully!",
-                        "success"
-                    );
-
-
-                }
-
-                /*
-                    CREATE new contribution.
-                */
-
-                else {
-
-                    const {
-                        error
-                    } =
-                        await supabaseClient
-                            .from(
-                                "contributions"
-                            )
-                            .insert(
-                                payload
-                            );
-
-
-                    if (error) {
-
-                        throw error;
-
-                    }
-
-
-                    showToast(
-                        "Contribution added successfully!",
-                        "success"
+                    throw new Error(
+                        "Database insert failed: " +
+                        insertResult.error.message
                     );
 
                 }
+
+
+                console.log(
+                    "Database insertion successful:",
+                    insertResult.data
+                );
+
+
+                updateProgress(
+                    90,
+                    "Refreshing contribution wall..."
+                );
+
+
+                /*
+                    IMPORTANT:
+
+                    Reload from Supabase.
+
+                    This makes the newly submitted
+                    contribution appear immediately.
+                */
+
+                await loadContributions();
 
 
                 updateProgress(
                     100,
-                    "Complete!"
+                    "Contribution added!"
+                );
+
+
+                showToast(
+                    "🎉 Your contribution has been added!",
+                    "success"
                 );
 
 
@@ -3246,11 +3877,7 @@ document
                     Reset form.
                 */
 
-                document
-                    .getElementById(
-                        "contributionForm"
-                    )
-                    .reset();
+                this.reset();
 
 
                 document
@@ -3265,15 +3892,12 @@ document
                     "SUBMIT CONTRIBUTION";
 
 
-                await loadContributions();
-
-
                 /*
-                    Scroll to gallery.
+                    Scroll to contribution wall.
                 */
 
                 setTimeout(
-                    () => {
+                    function() {
 
                         document
                             .getElementById(
@@ -3285,60 +3909,66 @@ document
                             });
 
                     },
-                    300
+                    500
                 );
 
+            }
 
-            } catch(error) {
+            catch(error) {
 
                 console.error(
+                    "Submission error:",
                     error
                 );
 
 
                 showToast(
                     error.message ||
-                    "Something went wrong.",
+                    "The contribution could not be submitted.",
                     "error"
                 );
 
 
                 button.textContent =
-                    editingId
-                        ? "UPDATE CONTRIBUTION"
-                        : "SUBMIT CONTRIBUTION";
+                    "SUBMIT CONTRIBUTION";
 
             }
 
+            finally {
 
-            button.disabled =
-                false;
+                button.disabled =
+                    false;
 
 
-            document
-                .getElementById(
-                    "progressContainer"
-                )
-                .style.display =
-                    "none";
+                setTimeout(
+                    function() {
+
+                        document
+                            .getElementById(
+                                "progressContainer"
+                            )
+                            .style.display =
+                                "none";
+
+                    },
+                    1000
+                );
+
+            }
 
         }
     );
 
 
-/* =========================================================
-   EDIT CONTRIBUTION
-========================================================= */
+/* =====================================================
+   EDIT
+===================================================== */
 
 
 async function editContribution(
     id
 ) {
 
-    /*
-        Ask for administrator PIN.
-    */
-
     if (
         !verifyAdmin()
     ) {
@@ -3358,88 +3988,143 @@ async function editContribution(
         );
 
 
-    if (!item) {
+    if (
+        !item
+    ) {
+
+        showToast(
+            "Contribution not found.",
+            "error"
+        );
+
 
         return;
 
     }
 
 
-    editingId =
-        id;
+    const newName =
+        prompt(
+            "Contributor name:",
+            item.name
+        );
 
 
-    document
-        .getElementById(
-            "name"
-        )
-        .value =
-            item.name;
+    if (
+        newName ===
+        null
+    ) {
+
+        return;
+
+    }
 
 
-    document
-        .getElementById(
-            "groupName"
-        )
-        .value =
-            item.group_name;
+    const newGroup =
+        prompt(
+            "Section / Group:",
+            item.group_name
+        );
 
 
-    document
-        .getElementById(
-            "description"
-        )
-        .value =
-            item.description;
+    if (
+        newGroup ===
+        null
+    ) {
+
+        return;
+
+    }
 
 
-    document
-        .getElementById(
-            "mediaFile"
-        )
-        .required =
-            false;
+    const newDescription =
+        prompt(
+            "Contribution description:",
+            item.description
+        );
 
 
-    document
-        .getElementById(
-            "submitButton"
-        )
-        .textContent =
-            "UPDATE CONTRIBUTION";
+    if (
+        newDescription ===
+        null
+    ) {
+
+        return;
+
+    }
 
 
-    document
-        .getElementById(
-            "upload"
-        )
-        .scrollIntoView({
-            behavior:
-                "smooth"
-        });
+    try {
+
+        const result =
+            await supabaseClient
+                .from(
+                    "contributions"
+                )
+                .update({
+
+                    name:
+                        newName.trim(),
+
+                    group_name:
+                        newGroup.trim(),
+
+                    description:
+                        newDescription.trim()
+
+                })
+                .eq(
+                    "id",
+                    id
+                );
 
 
-    showToast(
-        "Edit mode activated. Choose a new media file only if you want to replace the existing one.",
-        "success"
-    );
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+
+        await loadContributions();
+
+
+        showToast(
+            "Contribution updated successfully!",
+            "success"
+        );
+
+    }
+
+    catch(error) {
+
+        console.error(
+            error
+        );
+
+
+        showToast(
+            "Could not update contribution: " +
+            error.message,
+            "error"
+        );
+
+    }
 
 }
 
 
-/* =========================================================
-   DELETE CONTRIBUTION
-========================================================= */
+/* =====================================================
+   DELETE
+===================================================== */
 
 
 async function deleteContribution(
     id
 ) {
 
-    /*
-        Admin verification.
-    */
-
     if (
         !verifyAdmin()
     ) {
@@ -3459,7 +4144,9 @@ async function deleteContribution(
         );
 
 
-    if (!item) {
+    if (
+        !item
+    ) {
 
         return;
 
@@ -3468,11 +4155,13 @@ async function deleteContribution(
 
     const confirmed =
         confirm(
-            `Delete ${item.name}'s contribution?\n\nThis action cannot be undone.`
+            `Delete ${item.name}'s contribution?\n\nThis cannot be undone.`
         );
 
 
-    if (!confirmed) {
+    if (
+        !confirmed
+    ) {
 
         return;
 
@@ -3482,12 +4171,10 @@ async function deleteContribution(
     try {
 
         /*
-            Delete database record.
+            Delete database row.
         */
 
-        const {
-            error
-        } =
+        const deleteResult =
             await supabaseClient
                 .from(
                     "contributions"
@@ -3499,27 +4186,26 @@ async function deleteContribution(
                 );
 
 
-        if (error) {
+        if (
+            deleteResult.error
+        ) {
 
-            throw error;
+            throw deleteResult.error;
 
         }
 
-
-        /*
-            Reload gallery.
-        */
 
         await loadContributions();
 
 
         showToast(
-            "Contribution deleted successfully.",
+            "Contribution deleted.",
             "success"
         );
 
+    }
 
-    } catch(error) {
+    catch(error) {
 
         console.error(
             error
@@ -3527,7 +4213,8 @@ async function deleteContribution(
 
 
         showToast(
-            "Unable to delete contribution.",
+            "Could not delete contribution: " +
+            error.message,
             "error"
         );
 
@@ -3536,21 +4223,21 @@ async function deleteContribution(
 }
 
 
-/* =========================================================
+/* =====================================================
    ADMIN PIN
-========================================================= */
+===================================================== */
 
 
 function verifyAdmin() {
 
-    const pin =
+    const entered =
         prompt(
-            "Enter the administrator PIN:"
+            "Enter administrator PIN:"
         );
 
 
     if (
-        pin !==
+        entered !==
         ADMIN_PIN
     ) {
 
@@ -3570,9 +4257,9 @@ function verifyAdmin() {
 }
 
 
-/* =========================================================
+/* =====================================================
    SEARCH
-========================================================= */
+===================================================== */
 
 
 document
@@ -3594,7 +4281,9 @@ document
             );
 
 
-            if (!query) {
+            if (
+                !query
+            ) {
 
                 displayGallery(
                     contributions
@@ -3609,11 +4298,14 @@ document
             const filtered =
                 contributions.filter(
                     item =>
-                        item.name
-                            .toLowerCase()
-                            .includes(
-                                query
-                            )
+                        (
+                            item.name ||
+                            ""
+                        )
+                        .toLowerCase()
+                        .includes(
+                            query
+                        )
                 );
 
 
@@ -3625,9 +4317,9 @@ document
     );
 
 
-/* =========================================================
+/* =====================================================
    MEDIA MODAL
-========================================================= */
+===================================================== */
 
 
 function openMedia(
@@ -3661,29 +4353,25 @@ function openMedia(
             >
 
                 <source
-                    src="${escapeAttribute(
-                        url
-                    )}"
+                    src="${escapeAttribute(url)}"
                 >
 
                 Your browser does not
                 support video playback.
 
             </video>
-
         `;
 
-    } else {
+    }
+
+    else {
 
         container.innerHTML = `
 
             <img
-                src="${escapeAttribute(
-                    url
-                )}"
-                alt="Contribution"
+                src="${escapeAttribute(url)}"
+                alt="Booth contribution"
             >
-
         `;
 
     }
@@ -3721,10 +4409,7 @@ function closeMediaModal() {
 }
 
 
-/*
-    Close modal by clicking
-    outside the media.
-*/
+/* Close modal when clicking background. */
 
 document
     .getElementById(
@@ -3747,9 +4432,7 @@ document
     );
 
 
-/*
-    Close modal with Escape key.
-*/
+/* Escape key. */
 
 document.addEventListener(
     "keydown",
@@ -3768,14 +4451,14 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    PROGRESS
-========================================================= */
+===================================================== */
 
 
 function updateProgress(
     percentage,
-    text
+    message
 ) {
 
     const container =
@@ -3790,7 +4473,7 @@ function updateProgress(
         );
 
 
-    const progressText =
+    const text =
         document.getElementById(
             "progressText"
         );
@@ -3804,18 +4487,19 @@ function updateProgress(
         percentage + "%";
 
 
-    progressText.textContent =
-        text;
+    text.textContent =
+        message;
 
 }
 
 
-/* =========================================================
+/* =====================================================
    TOAST
-========================================================= */
+===================================================== */
 
 
-let toastTimer;
+let toastTimer =
+    null;
 
 
 function showToast(
@@ -3834,12 +4518,11 @@ function showToast(
 
 
     toast.className =
-        "toast " +
-        type;
+        `toast ${type}`;
 
 
     setTimeout(
-        () => {
+        function() {
 
             toast.classList.add(
                 "show"
@@ -3850,29 +4533,35 @@ function showToast(
     );
 
 
-    clearTimeout(
+    if (
         toastTimer
-    );
+    ) {
+
+        clearTimeout(
+            toastTimer
+        );
+
+    }
 
 
     toastTimer =
         setTimeout(
-            () => {
+            function() {
 
                 toast.classList.remove(
                     "show"
                 );
 
             },
-            4000
+            4500
         );
 
 }
 
 
-/* =========================================================
-   HTML ESCAPING
-========================================================= */
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 
 function escapeHTML(
@@ -3880,51 +4569,11 @@ function escapeHTML(
 ) {
 
     return String(
-        value || ""
-    )
-    .replace(
-        /[&<>"']/g,
-        character => ({
-
-            "&":
-                "&amp;",
-
-            "<":
-                "&lt;",
-
-            ">":
-                "&gt;",
-
-            '"':
-                "&quot;",
-
-            "'":
-                "&#039;"
-
-        })[character]
-    );
-
-}
-
-
-function escapeAttribute(
-    value
-) {
-
-    return String(
-        value || ""
+        value ?? ""
     )
     .replace(
         /&/g,
         "&amp;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
     )
     .replace(
         /</g,
@@ -3933,72 +4582,37 @@ function escapeAttribute(
     .replace(
         />/g,
         "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
     );
 
 }
 
 
-/* =========================================================
-   DATABASE ERROR
-========================================================= */
+/* =====================================================
+   ESCAPE ATTRIBUTE
+===================================================== */
 
 
-function showDatabaseError() {
+function escapeAttribute(
+    value
+) {
 
-    document
-        .getElementById(
-            "galleryContainer"
-        )
-        .innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-
-                <h3>
-                    Contributions could not be loaded.
-                </h3>
-
-
-                <p>
-                    Please check your Supabase
-                    configuration and database.
-                </p>
-
-            </div>
-
-        `;
-
-
-    document
-        .getElementById(
-            "contributorList"
-        )
-        .innerHTML = `
-
-            <div class="empty">
-
-                ⚠️ Unable to load contributors.
-
-            </div>
-
-        `;
+    return escapeHTML(
+        value
+    );
 
 }
-
-
-/* =========================================================
-   START WEBSITE
-========================================================= */
-
-
-loadContributions();
 
 </script>
 
 
 </body>
+
 </html>
