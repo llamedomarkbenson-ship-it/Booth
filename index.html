@@ -1,2098 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Davao del Sur | Booth Contributions</title>
-
-    <meta
-        name="description"
-        content="A digital contribution wall celebrating the students who helped create our Davao del Sur booth."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-    <style>
-
-        :root {
-            --forest: #103c2a;
-            --forest-dark: #08271b;
-            --forest-light: #1b5b3e;
-
-            --leaf: #3f8d5d;
-            --leaf-light: #83b88f;
-
-            --gold: #d7a63d;
-            --gold-light: #f2d68f;
-
-            --cream: #fffaf0;
-            --white: #ffffff;
-
-            --dark: #17231d;
-            --muted: #6c7770;
-
-            --border: #e8e0d1;
-
-            --danger: #c53b3b;
-            --danger-light: #fff0f0;
-
-            --success: #2d8b57;
-
-            --shadow:
-                0 15px 45px rgba(16,60,42,.09);
-        }
-
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-
-        body {
-            font-family:
-                "DM Sans",
-                sans-serif;
-
-            background:
-                var(--cream);
-
-            color:
-                var(--dark);
-
-            line-height:
-                1.6;
-        }
-
-
-        button,
-        input,
-        textarea {
-            font-family:
-                inherit;
-        }
-
-
-        nav {
-            position:
-                sticky;
-
-            top:
-                0;
-
-            z-index:
-                1000;
-
-            display:
-                flex;
-
-            justify-content:
-                space-between;
-
-            align-items:
-                center;
-
-            padding:
-                13px 6%;
-
-            background:
-                rgba(16,60,42,.97);
-
-            backdrop-filter:
-                blur(15px);
-
-            color:
-                white;
-
-            box-shadow:
-                0 5px 25px rgba(0,0,0,.15);
-        }
-
-
-        .logo {
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            gap:
-                12px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                .5px;
-        }
-
-
-        .logo-icon {
-            width:
-                43px;
-
-            height:
-                43px;
-
-            display:
-                grid;
-
-            place-items:
-                center;
-
-            border-radius:
-                50%;
-
-            background:
-                var(--gold);
-
-            color:
-                var(--forest);
-
-            font-size:
-                21px;
-        }
-
-
-        .nav-links {
-            display:
-                flex;
-
-            gap:
-                28px;
-        }
-
-
-        .nav-links a {
-            color:
-                white;
-
-            text-decoration:
-                none;
-
-            font-size:
-                14px;
-
-            font-weight:
-                700;
-
-            transition:
-                .2s;
-        }
-
-
-        .nav-links a:hover {
-            color:
-                var(--gold-light);
-        }
-
-
-        .hero {
-            position:
-                relative;
-
-            min-height:
-                680px;
-
-            display:
-                flex;
-
-            align-items:
-                center;
-
-            padding:
-                100px 8%;
-
-            overflow:
-                hidden;
-
-            background:
-
-                linear-gradient(
-                    120deg,
-                    rgba(6,38,25,.98),
-                    rgba(17,76,49,.88),
-                    rgba(20,70,48,.72)
-                ),
-
-                url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2200&q=85");
-
-            background-size:
-                cover;
-
-            background-position:
-                center;
-        }
-
-
-        .hero::before {
-            content:
-                "";
-
-            position:
-                absolute;
-
-            width:
-                550px;
-
-            height:
-                550px;
-
-            top:
-                -230px;
-
-            right:
-                -170px;
-
-            border-radius:
-                50%;
-
-            background:
-                rgba(215,166,61,.08);
-        }
-
-
-        .hero::after {
-            content:
-                "";
-
-            position:
-                absolute;
-
-            bottom:
-                -120px;
-
-            left:
-                -5%;
-
-            width:
-                110%;
-
-            height:
-                220px;
-
-            background:
-                var(--cream);
-
-            border-radius:
-                50% 50% 0 0;
-        }
-
-
-        .hero-content {
-            position:
-                relative;
-
-            z-index:
-                5;
-
-            max-width:
-                850px;
-
-            color:
-                white;
-        }
-
-
-        .hero-badge {
-            display:
-                inline-block;
-
-            margin-bottom:
-                20px;
-
-            padding:
-                7px 15px;
-
-            border:
-                1px solid rgba(255,255,255,.35);
-
-            border-radius:
-                100px;
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                2px;
-        }
-
-
-        .hero h1 {
-            margin-bottom:
-                25px;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                clamp(48px,8vw,92px);
-
-            line-height:
-                .96;
-        }
-
-
-        .hero h1 span {
-            color:
-                var(--gold-light);
-        }
-
-
-        .hero-description {
-            max-width:
-                680px;
-
-            margin-bottom:
-                34px;
-
-            color:
-                rgba(255,255,255,.87);
-
-            font-size:
-                18px;
-        }
-
-
-        .hero-buttons {
-            display:
-                flex;
-
-            gap:
-                12px;
-
-            flex-wrap:
-                wrap;
-        }
-
-
-        .hero-button {
-            display:
-                inline-block;
-
-            padding:
-                14px 23px;
-
-            border-radius:
-                10px;
-
-            text-decoration:
-                none;
-
-            font-size:
-                14px;
-
-            font-weight:
-                800;
-
-            cursor:
-                pointer;
-
-            transition:
-                .25s;
-        }
-
-
-        .hero-button:hover {
-            transform:
-                translateY(-3px);
-        }
-
-
-        .hero-button-primary {
-            background:
-                var(--gold);
-
-            color:
-                var(--forest);
-        }
-
-
-        .hero-button-secondary {
-            background:
-                rgba(255,255,255,.1);
-
-            border:
-                1px solid rgba(255,255,255,.35);
-
-            color:
-                white;
-        }
-
-
-        section {
-            padding:
-                85px 7%;
-        }
-
-
-        .section-heading {
-            max-width:
-                750px;
-
-            margin:
-                0 auto 40px;
-
-            text-align:
-                center;
-        }
-
-
-        .section-heading small {
-            color:
-                var(--leaf);
-
-            font-size:
-                12px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                2px;
-        }
-
-
-        .section-heading h2 {
-            margin:
-                8px 0 12px;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                clamp(35px,5vw,58px);
-
-            line-height:
-                1.1;
-        }
-
-
-        .section-heading p {
-            color:
-                var(--muted);
-        }
-
-
-        .stats {
-            position:
-                relative;
-
-            z-index:
-                20;
-
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(3,1fr);
-
-            max-width:
-                850px;
-
-            margin:
-                -20px auto 0;
-
-            overflow:
-                hidden;
-
-            background:
-                white;
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                20px;
-
-            box-shadow:
-                var(--shadow);
-        }
-
-
-        .stat {
-            padding:
-                30px;
-
-            text-align:
-                center;
-
-            border-right:
-                1px solid var(--border);
-        }
-
-
-        .stat:last-child {
-            border-right:
-                none;
-        }
-
-
-        .stat-number {
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                43px;
-
-            color:
-                var(--forest);
-        }
-
-
-        .stat-label {
-            color:
-                var(--muted);
-
-            font-size:
-                12px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                1px;
-        }
-
-
-        .search-container {
-            max-width:
-                700px;
-
-            margin:
-                35px auto 30px;
-        }
-
-
-        .search-box {
-            position:
-                relative;
-        }
-
-
-        .search-box input {
-            width:
-                100%;
-
-            padding:
-                17px 20px 17px 52px;
-
-            outline:
-                none;
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                100px;
-
-            background:
-                white;
-
-            font-size:
-                15px;
-
-            box-shadow:
-                0 8px 25px rgba(0,0,0,.04);
-        }
-
-
-        .search-box input:focus {
-            border-color:
-                var(--leaf);
-
-            box-shadow:
-                0 0 0 4px rgba(63,141,93,.1);
-        }
-
-
-        .search-icon {
-            position:
-                absolute;
-
-            left:
-                20px;
-
-            top:
-                50%;
-
-            transform:
-                translateY(-50%);
-
-            font-size:
-                18px;
-        }
-
-
-        .contributor-list {
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(auto-fill,minmax(190px,1fr));
-
-            gap:
-                14px;
-
-            max-width:
-                1100px;
-
-            margin:
-                30px auto 65px;
-        }
-
-
-        .contributor {
-            padding:
-                20px;
-
-            cursor:
-                pointer;
-
-            background:
-                white;
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                15px;
-
-            transition:
-                .25s;
-        }
-
-
-        .contributor:hover {
-            transform:
-                translateY(-5px);
-
-            border-color:
-                var(--leaf);
-
-            box-shadow:
-                0 12px 35px rgba(16,60,42,.09);
-        }
-
-
-        .contributor-name {
-            color:
-                var(--forest);
-
-            font-weight:
-                800;
-        }
-
-
-        .contributor-count {
-            margin-top:
-                4px;
-
-            color:
-                var(--muted);
-
-            font-size:
-                12px;
-        }
-
-
-        .gallery {
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(auto-fill,minmax(290px,1fr));
-
-            gap:
-                24px;
-
-            max-width:
-                1200px;
-
-            margin:
-                auto;
-        }
-
-
-        .card {
-            overflow:
-                hidden;
-
-            background:
-                white;
-
-            border:
-                1px solid var(--border);
-
-            border-radius:
-                19px;
-
-            box-shadow:
-                0 10px 35px rgba(16,60,42,.07);
-
-            transition:
-                .3s;
-        }
-
-
-        .card:hover {
-            transform:
-                translateY(-6px);
-
-            box-shadow:
-                0 18px 45px rgba(16,60,42,.13);
-        }
-
-
-        .media {
-            position:
-                relative;
-
-            height:
-                260px;
-
-            overflow:
-                hidden;
-
-            background:
-                #ddd;
-
-            cursor:
-                pointer;
-        }
-
-
-        .media img,
-        .media video {
-            width:
-                100%;
-
-            height:
-                100%;
-
-            display:
-                block;
-
-            object-fit:
-                cover;
-        }
-
-
-        .media-label {
-            position:
-                absolute;
-
-            z-index:
-                5;
-
-            top:
-                12px;
-
-            left:
-                12px;
-
-            padding:
-                6px 11px;
-
-            border-radius:
-                100px;
-
-            background:
-                rgba(0,0,0,.7);
-
-            color:
-                white;
-
-            font-size:
-                10px;
-
-            font-weight:
-                800;
-        }
-
-
-        .card-content {
-            padding:
-                21px;
-        }
-
-
-        .card h3 {
-            margin-bottom:
-                7px;
-
-            font-size:
-                20px;
-        }
-
-
-        .card-description {
-            min-height:
-                44px;
-
-            color:
-                var(--muted);
-
-            font-size:
-                14px;
-        }
-
-
-        .card-info {
-            display:
-                flex;
-
-            justify-content:
-                space-between;
-
-            gap:
-                10px;
-
-            margin-top:
-                18px;
-
-            padding-top:
-                14px;
-
-            border-top:
-                1px solid var(--border);
-
-            color:
-                var(--muted);
-
-            font-size:
-                12px;
-        }
-
-
-        .card-info strong {
-            color:
-                var(--forest);
-        }
-
-
-        .card-actions {
-            display:
-                flex;
-
-            gap:
-                8px;
-
-            margin-top:
-                15px;
-        }
-
-
-        .card-action {
-            flex:
-                1;
-
-            padding:
-                9px;
-
-            border:
-                none;
-
-            border-radius:
-                8px;
-
-            font-size:
-                12px;
-
-            font-weight:
-                800;
-
-            cursor:
-                pointer;
-        }
-
-
-        .edit-button {
-            background:
-                #edf5ef;
-
-            color:
-                var(--forest);
-        }
-
-
-        .delete-button {
-            background:
-                var(--danger-light);
-
-            color:
-                var(--danger);
-        }
-
-
-        .upload-section {
-            background:
-                var(--forest);
-
-            color:
-                white;
-        }
-
-
-        .upload-container {
-            max-width:
-                850px;
-
-            margin:
-                auto;
-
-            padding:
-                42px;
-
-            background:
-                rgba(255,255,255,.06);
-
-            border:
-                1px solid rgba(255,255,255,.14);
-
-            border-radius:
-                25px;
-        }
-
-
-        .upload-container h2 {
-            margin-bottom:
-                8px;
-
-            font-family:
-                "Playfair Display",
-                serif;
-
-            font-size:
-                42px;
-        }
-
-
-        .upload-container > p {
-            margin-bottom:
-                30px;
-
-            color:
-                rgba(255,255,255,.72);
-        }
-
-
-        .form-grid {
-            display:
-                grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap:
-                18px;
-        }
-
-
-        .form-group {
-            margin-bottom:
-                18px;
-        }
-
-
-        .form-group label {
-            display:
-                block;
-
-            margin-bottom:
-                7px;
-
-            font-size:
-                13px;
-
-            font-weight:
-                800;
-        }
-
-
-        .form-group input,
-        .form-group textarea {
-            width:
-                100%;
-
-            padding:
-                14px;
-
-            outline:
-                none;
-
-            border:
-                1px solid rgba(255,255,255,.2);
-
-            border-radius:
-                9px;
-
-            background:
-                rgba(255,255,255,.08);
-
-            color:
-                white;
-
-            font-size:
-                14px;
-        }
-
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color:
-                rgba(255,255,255,.48);
-        }
-
-
-        .form-group textarea {
-            min-height:
-                120px;
-
-            resize:
-                vertical;
-        }
-
-
-        .file-area {
-            padding:
-                30px;
-
-            text-align:
-                center;
-
-            border:
-                2px dashed rgba(255,255,255,.28);
-
-            border-radius:
-                14px;
-        }
-
-
-        .file-area-icon {
-            margin-bottom:
-                8px;
-
-            font-size:
-                40px;
-        }
-
-
-        .file-area input {
-            width:
-                100%;
-
-            margin-top:
-                15px;
-        }
-
-
-        .file-help {
-            margin-top:
-                10px;
-
-            color:
-                rgba(255,255,255,.62);
-
-            font-size:
-                12px;
-        }
-
-
-        .video-status {
-            margin-top:
-                10px;
-
-            font-size:
-                13px;
-
-            font-weight:
-                800;
-        }
-
-
-        .submit-button {
-            width:
-                100%;
-
-            padding:
-                16px;
-
-            margin-top:
-                10px;
-
-            border:
-                none;
-
-            border-radius:
-                9px;
-
-            background:
-                var(--gold);
-
-            color:
-                var(--forest);
-
-            font-weight:
-                900;
-
-            cursor:
-                pointer;
-
-            transition:
-                .2s;
-        }
-
-
-        .submit-button:hover:not(:disabled) {
-            transform:
-                translateY(-2px);
-        }
-
-
-        .submit-button:disabled {
-            opacity:
-                .55;
-
-            cursor:
-                not-allowed;
-        }
-
-
-        .progress-container {
-            display:
-                none;
-
-            margin-top:
-                18px;
-        }
-
-
-        .progress-bar {
-            height:
-                8px;
-
-            overflow:
-                hidden;
-
-            border-radius:
-                100px;
-
-            background:
-                rgba(255,255,255,.15);
-        }
-
-
-        .progress-fill {
-            width:
-                0%;
-
-            height:
-                100%;
-
-            background:
-                var(--gold);
-
-            transition:
-                width .2s;
-        }
-
-
-        .progress-text {
-            margin-top:
-                6px;
-
-            color:
-                rgba(255,255,255,.7);
-
-            font-size:
-                12px;
-        }
-
-
-        .loading {
-            grid-column:
-                1 / -1;
-
-            padding:
-                70px 20px;
-
-            text-align:
-                center;
-
-            color:
-                var(--muted);
-        }
-
-
-        .spinner {
-            width:
-                38px;
-
-            height:
-                38px;
-
-            margin:
-                0 auto 15px;
-
-            border:
-                4px solid #e3e8e4;
-
-            border-top-color:
-                var(--forest);
-
-            border-radius:
-                50%;
-
-            animation:
-                spin 1s linear infinite;
-        }
-
-
-        @keyframes spin {
-            to {
-                transform:
-                    rotate(360deg);
-            }
-        }
-
-
-        .empty {
-            grid-column:
-                1 / -1;
-
-            padding:
-                70px 20px;
-
-            text-align:
-                center;
-
-            color:
-                var(--muted);
-        }
-
-
-        .empty-icon {
-            margin-bottom:
-                10px;
-
-            font-size:
-                50px;
-        }
-
-
-        .database-error {
-            grid-column:
-                1 / -1;
-
-            padding:
-                35px;
-
-            border:
-                1px solid #efb1b1;
-
-            border-radius:
-                15px;
-
-            background:
-                #fff3f3;
-
-            color:
-                #8f2525;
-
-            text-align:
-                center;
-        }
-
-
-        .database-error code {
-            display:
-                block;
-
-            margin-top:
-                12px;
-
-            padding:
-                12px;
-
-            overflow:
-                auto;
-
-            border-radius:
-                8px;
-
-            background:
-                #ffe4e4;
-
-            font-size:
-                12px;
-
-            text-align:
-                left;
-        }
-
-
-        .modal {
-            position:
-                fixed;
-
-            inset:
-                0;
-
-            z-index:
-                5000;
-
-            display:
-                none;
-
-            align-items:
-                center;
-
-            justify-content:
-                center;
-
-            padding:
-                30px;
-
-            background:
-                rgba(0,0,0,.84);
-        }
-
-
-        .modal.active {
-            display:
-                flex;
-        }
-
-
-        .modal-content {
-            position:
-                relative;
-
-            max-width:
-                1000px;
-
-            max-height:
-                90vh;
-        }
-
-
-        .modal-content img,
-        .modal-content video {
-            display:
-                block;
-
-            max-width:
-                100%;
-
-            max-height:
-                82vh;
-
-            border-radius:
-                10px;
-        }
-
-
-        .close-modal {
-            position:
-                absolute;
-
-            top:
-                -45px;
-
-            right:
-                -5px;
-
-            width:
-                36px;
-
-            height:
-                36px;
-
-            border:
-                none;
-
-            border-radius:
-                50%;
-
-            background:
-                white;
-
-            color:
-                #222;
-
-            font-size:
-                22px;
-
-            cursor:
-                pointer;
-        }
-
-
-        .toast {
-            position:
-                fixed;
-
-            right:
-                25px;
-
-            bottom:
-                25px;
-
-            z-index:
-                7000;
-
-            max-width:
-                420px;
-
-            padding:
-                16px 20px;
-
-            border-radius:
-                12px;
-
-            background:
-                var(--forest);
-
-            color:
-                white;
-
-            box-shadow:
-                0 15px 40px rgba(0,0,0,.25);
-
-            transform:
-                translateY(130px);
-
-            opacity:
-                0;
-
-            transition:
-                .3s;
-        }
-
-
-        .toast.show {
-            transform:
-                translateY(0);
-
-            opacity:
-                1;
-        }
-
-
-        .toast.error {
-            border-left:
-                4px solid #ff6767;
-        }
-
-
-        .toast.success {
-            border-left:
-                4px solid var(--gold);
-        }
-
-
-        footer {
-            padding:
-                35px 20px;
-
-            text-align:
-                center;
-
-            background:
-                var(--forest-dark);
-
-            color:
-                rgba(255,255,255,.68);
-
-            font-size:
-                13px;
-        }
-
-
-        footer strong {
-            color:
-                white;
-        }
-
-
-        @media(max-width:700px) {
-
-            nav {
-                padding:
-                    12px 5%;
-            }
-
-
-            .nav-links {
-                display:
-                    none;
-            }
-
-
-            .hero {
-                min-height:
-                    620px;
-
-                padding:
-                    75px 7%;
-            }
-
-
-            section {
-                padding:
-                    65px 5%;
-            }
-
-
-            .stats {
-                grid-template-columns:
-                    1fr;
-
-                margin-left:
-                    5%;
-
-                margin-right:
-                    5%;
-            }
-
-
-            .stat {
-                border-right:
-                    none;
-
-                border-bottom:
-                    1px solid var(--border);
-            }
-
-
-            .stat:last-child {
-                border-bottom:
-                    none;
-            }
-
-
-            .form-grid {
-                grid-template-columns:
-                    1fr;
-            }
-
-
-            .upload-container {
-                padding:
-                    25px;
-            }
-
-
-            .toast {
-                left:
-                    15px;
-
-                right:
-                    15px;
-
-                bottom:
-                    15px;
-
-                max-width:
-                    none;
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<nav>
-
-    <div class="logo">
-
-        <div class="logo-icon">
-            ⛰
-        </div>
-
-        DAVAO DEL SUR
-
-    </div>
-
-
-    <div class="nav-links">
-
-        <a href="#contributors">
-            Contributors
-        </a>
-
-        <a href="#gallery">
-            Booth Story
-        </a>
-
-        <a href="#upload">
-            Contribute
-        </a>
-
-    </div>
-
-</nav>
-
-
-<header class="hero">
-
-    <div class="hero-content">
-
-        <div class="hero-badge">
-            SPECIAL BOOTH CONTRIBUTIONS
-        </div>
-
-
-        <h1>
-
-            Our Booth.<br>
-
-            Our
-            <span>
-                Story.
-            </span>
-
-        </h1>
-
-
-        <p class="hero-description">
-
-            A digital collection celebrating the students
-            who shared their time, creativity, effort,
-            and teamwork in creating our Davao del Sur booth.
-
-        </p>
-
-
-        <div class="hero-buttons">
-
-            <a
-                href="#gallery"
-                class="hero-button hero-button-primary"
-            >
-                EXPLORE CONTRIBUTIONS
-            </a>
-
-
-            <a
-                href="#upload"
-                class="hero-button hero-button-secondary"
-            >
-                ADD YOUR CONTRIBUTION
-            </a>
-
-        </div>
-
-    </div>
-
-</header>
-
-
-<div class="stats">
-
-    <div class="stat">
-
-        <div
-            id="totalContributions"
-            class="stat-number"
-        >
-            0
-        </div>
-
-        <div class="stat-label">
-            Contributions
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div
-            id="totalContributors"
-            class="stat-number"
-        >
-            0
-        </div>
-
-        <div class="stat-label">
-            Students
-        </div>
-
-    </div>
-
-
-    <div class="stat">
-
-        <div
-            id="totalMedia"
-            class="stat-number"
-        >
-            0
-        </div>
-
-        <div class="stat-label">
-            Photos & Videos
-        </div>
-
-    </div>
-
-</div>
-
-
-<section id="contributors">
-
-    <div class="section-heading">
-
-        <small>
-            THE PEOPLE BEHIND THE BOOTH
-        </small>
-
-
-        <h2>
-            Our Contributors
-        </h2>
-
-
-        <p>
-            Every student who helped create the booth
-            has a place in our story.
-        </p>
-
-    </div>
-
-
-    <div class="search-container">
-
-        <div class="search-box">
-
-            <span class="search-icon">
-                🔎
-            </span>
-
-
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Search for a contributor..."
-            >
-
-        </div>
-
-    </div>
-
-
-    <div
-        id="contributorList"
-        class="contributor-list"
-    >
-
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            Loading contributors...
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section id="gallery">
-
-    <div class="section-heading">
-
-        <small>
-            BOOTH MEMORIES
-        </small>
-
-
-        <h2>
-            Our Contribution Wall
-        </h2>
-
-
-        <p>
-            Photos and videos documenting the students
-            who helped make our Davao del Sur booth possible.
-        </p>
-
-    </div>
-
-
-    <div
-        id="galleryContainer"
-        class="gallery"
-    >
-
-        <div class="loading">
-
-            <div class="spinner"></div>
-
-            Loading contributions...
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<section
-    id="upload"
-    class="upload-section"
->
-
-    <div class="upload-container">
-
-        <h2>
-            Add Your Contribution
-        </h2>
-
-
-        <p>
-            Tell everyone how you helped create
-            our Davao del Sur booth.
-        </p>
-
-
-        <form id="contributionForm">
-
-
-            <div class="form-grid">
-
-
-                <div class="form-group">
-
-                    <label for="name">
-                        Your Name
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your complete name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="groupName">
-                        Section / Group
-                    </label>
-
-
-                    <input
-                        type="text"
-                        id="groupName"
-                        placeholder="Example: Fleming"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="description">
-                    What did you contribute?
-                </label>
-
-
-                <textarea
-                    id="description"
-                    placeholder="Example: I helped paint the Mount Apo background and arrange the decorations."
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Photo or Video
-                </label>
-
-
-                <div class="file-area">
-
-                    <div class="file-area-icon">
-                        📸 🎥
-                    </div>
-
-
-                    <div>
-                        Choose a photo or video
-                    </div>
-
-
-                    <input
-                        type="file"
-                        id="mediaFile"
-                        accept="image/*,video/*"
-                        required
-                    >
-
-
-                    <div class="file-help">
-
-                        Maximum file size:
-                        2 MB.
-
-                        Videos must be
-                        5 minutes or shorter.
-
-                    </div>
-
-
-                    <div
-                        id="videoStatus"
-                        class="video-status"
-                    ></div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="progressContainer"
-                class="progress-container"
-            >
-
-                <div class="progress-bar">
-
-                    <div
-                        id="progressFill"
-                        class="progress-fill"
-                    ></div>
-
-                </div>
-
-
-                <div
-                    id="progressText"
-                    class="progress-text"
-                >
-                    Preparing...
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                id="submitButton"
-                class="submit-button"
-            >
-                SUBMIT CONTRIBUTION
-            </button>
-
-        </form>
-
-    </div>
-
-</section>
-
-
-<div
-    id="mediaModal"
-    class="modal"
->
-
-    <div class="modal-content">
-
-        <button
-            class="close-modal"
-            onclick="closeMediaModal()"
-        >
-            ×
-        </button>
-
-
-        <div id="modalMedia"></div>
-
-    </div>
-
-</div>
-
-
-<div
-    id="toast"
-    class="toast"
-></div>
-
-
-<footer>
-
-    <strong>
-        DAVAO DEL SUR • SPECIAL CONTRIBUTIONS
-    </strong>
-
-    <br><br>
-
-    Built through teamwork, creativity, and pride.
-
-    <br><br>
-
-    © 2026 Davao del Sur Booth Project
-
-</footer>
-
-
 <script>
-
 /* =====================================================
-   BOOTH SUPABASE CONFIGURATION
+   SUPABASE CONFIGURATION
 ===================================================== */
 
 const SUPABASE_URL =
@@ -2103,69 +11,20 @@ const SUPABASE_ANON_KEY =
 
 
 /* =====================================================
-   BOOTH DATABASE / STORAGE SETTINGS
-===================================================== */
-
-const DATABASE_TABLE =
-    "booth_contributions";
-
-const STORAGE_BUCKET =
-    "davao-photos";
-
-
-/*
-   Supabase bucket limit:
-   2 MB
-*/
-
-const MAX_FILE_SIZE =
-    2 * 1024 * 1024;
-
-
-/*
-   Maximum video duration:
-   5 minutes
-*/
-
-const MAX_VIDEO_SECONDS =
-    5 * 60;
-
-
-/*
-   Basic administrator PIN.
-
-   IMPORTANT:
-   This is NOT real security because
-   JavaScript is visible to website visitors.
-
-   Change this to your preferred PIN.
-*/
-
-const ADMIN_PIN =
-    "123456";
-
-
-let supabaseClient = null;
-
-let contributions = [];
-
-
-/* =====================================================
    SUPABASE INITIALIZATION
 ===================================================== */
+
+let supabaseClient = null;
 
 function initializeSupabase() {
 
     try {
 
         if (!window.supabase) {
-
             throw new Error(
                 "Supabase library did not load."
             );
-
         }
-
 
         supabaseClient =
             window.supabase.createClient(
@@ -2173,29 +32,47 @@ function initializeSupabase() {
                 SUPABASE_ANON_KEY
             );
 
-
         return true;
 
-    }
-
-    catch(error) {
+    } catch (error) {
 
         console.error(
             "Supabase initialization error:",
             error
         );
 
-
         showConnectionError(
             error.message
         );
 
-
         return false;
-
     }
-
 }
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+const TABLE_NAME =
+    "booth_contributions";
+
+const BUCKET_NAME =
+    "booth-photos";
+
+const MAX_VIDEO_SECONDS =
+    5 * 60;
+
+
+/*
+   CHANGE THIS PIN IF YOU WANT.
+*/
+
+const ADMIN_PIN =
+    "123456";
+
+
+let contributions = [];
 
 
 /* =====================================================
@@ -2209,16 +86,11 @@ document.addEventListener(
         const initialized =
             initializeSupabase();
 
-
         if (!initialized) {
-
             return;
-
         }
 
-
         await loadContributions();
-
     }
 );
 
@@ -2231,34 +103,34 @@ async function loadContributions() {
 
     showLoading();
 
-
     try {
+
+        console.log(
+            "Loading booth contributions..."
+        );
+
+        /*
+           IMPORTANT:
+           We do NOT use created_at here because
+           your table does not have that column.
+        */
 
         const response =
             await supabaseClient
-                .from(
-                    DATABASE_TABLE
-                )
-                .select("*")
-                .order(
-                    "created_at",
-                    {
-                        ascending:
-                            false
-                    }
-                );
+                .from(TABLE_NAME)
+                .select("*");
 
+        console.log(
+            "Supabase response:",
+            response
+        );
 
         if (response.error) {
-
             throw response.error;
-
         }
-
 
         contributions =
             response.data || [];
-
 
         updateStatistics();
 
@@ -2268,22 +140,17 @@ async function loadContributions() {
             contributions
         );
 
-    }
-
-    catch(error) {
+    } catch (error) {
 
         console.error(
             "Unable to load contributions:",
             error
         );
 
-
         showDatabaseError(
             error
         );
-
     }
-
 }
 
 
@@ -2294,9 +161,7 @@ async function loadContributions() {
 function showLoading() {
 
     document
-        .getElementById(
-            "contributorList"
-        )
+        .getElementById("contributorList")
         .innerHTML = `
 
             <div class="loading">
@@ -2308,11 +173,8 @@ function showLoading() {
             </div>
         `;
 
-
     document
-        .getElementById(
-            "galleryContainer"
-        )
+        .getElementById("galleryContainer")
         .innerHTML = `
 
             <div class="loading">
@@ -2323,7 +185,6 @@ function showLoading() {
 
             </div>
         `;
-
 }
 
 
@@ -2331,14 +192,10 @@ function showLoading() {
    CONNECTION ERROR
 ===================================================== */
 
-function showConnectionError(
-    message
-) {
+function showConnectionError(message) {
 
     document
-        .getElementById(
-            "contributorList"
-        )
+        .getElementById("contributorList")
         .innerHTML = `
 
             <div class="database-error">
@@ -2359,11 +216,8 @@ function showConnectionError(
             </div>
         `;
 
-
     document
-        .getElementById(
-            "galleryContainer"
-        )
+        .getElementById("galleryContainer")
         .innerHTML = `
 
             <div class="database-error">
@@ -2373,7 +227,7 @@ function showConnectionError(
                 </h3>
 
                 <p>
-                    Check the Supabase project URL
+                    Check your Supabase project URL
                     and publishable key.
                 </p>
 
@@ -2383,7 +237,6 @@ function showConnectionError(
 
             </div>
         `;
-
 }
 
 
@@ -2391,19 +244,14 @@ function showConnectionError(
    DATABASE ERROR
 ===================================================== */
 
-function showDatabaseError(
-    error
-) {
+function showDatabaseError(error) {
 
     const message =
         error?.message ||
         "Unknown database error.";
 
-
     document
-        .getElementById(
-            "contributorList"
-        )
+        .getElementById("contributorList")
         .innerHTML = `
 
             <div class="database-error">
@@ -2413,8 +261,8 @@ function showDatabaseError(
                 </h3>
 
                 <p>
-                    Supabase returned an error
-                    while reading the Booth database.
+                    Check the booth_contributions
+                    table and its policies.
                 </p>
 
                 <code>
@@ -2424,11 +272,8 @@ function showDatabaseError(
             </div>
         `;
 
-
     document
-        .getElementById(
-            "galleryContainer"
-        )
+        .getElementById("galleryContainer")
         .innerHTML = `
 
             <div class="database-error">
@@ -2448,7 +293,6 @@ function showDatabaseError(
 
             </div>
         `;
-
 }
 
 
@@ -2461,7 +305,6 @@ function updateStatistics() {
     const names =
         new Set();
 
-
     contributions.forEach(
         item => {
 
@@ -2472,12 +315,9 @@ function updateStatistics() {
                         .trim()
                         .toLowerCase()
                 );
-
             }
-
         }
     );
-
 
     document
         .getElementById(
@@ -2486,7 +326,6 @@ function updateStatistics() {
         .textContent =
             contributions.length;
 
-
     document
         .getElementById(
             "totalContributors"
@@ -2494,14 +333,12 @@ function updateStatistics() {
         .textContent =
             names.size;
 
-
     document
         .getElementById(
             "totalMedia"
         )
         .textContent =
             contributions.length;
-
 }
 
 
@@ -2509,18 +346,14 @@ function updateStatistics() {
    CONTRIBUTORS
 ===================================================== */
 
-function displayContributors(
-    search = ""
-) {
+function displayContributors(search = "") {
 
     const container =
         document.getElementById(
             "contributorList"
         );
 
-
     const grouped = {};
-
 
     contributions.forEach(
         item => {
@@ -2531,40 +364,30 @@ function displayContributors(
                     "Unknown Contributor"
                 ).trim();
 
-
             if (!grouped[name]) {
-
-                grouped[name] =
-                    0;
-
+                grouped[name] = 0;
             }
 
-
             grouped[name]++;
-
         }
     );
 
-
     const people =
-        Object.entries(
-            grouped
-        )
-        .filter(
-            ([name]) =>
-                name
-                    .toLowerCase()
-                    .includes(
-                        search.toLowerCase()
-                    )
-        )
-        .sort(
-            ([a], [b]) =>
-                a.localeCompare(b)
-        );
+        Object.entries(grouped)
+            .filter(
+                ([name]) =>
+                    name
+                        .toLowerCase()
+                        .includes(
+                            search.toLowerCase()
+                        )
+            )
+            .sort(
+                ([a], [b]) =>
+                    a.localeCompare(b)
+            );
 
-
-    if (!people.length) {
+    if (people.length === 0) {
 
         container.innerHTML = `
 
@@ -2580,13 +403,9 @@ function displayContributors(
         `;
 
         return;
-
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     people.forEach(
         ([name, count]) => {
@@ -2596,10 +415,8 @@ function displayContributors(
                     "div"
                 );
 
-
             element.className =
                 "contributor";
-
 
             element.innerHTML = `
 
@@ -2609,7 +426,6 @@ function displayContributors(
                     ${escapeHTML(name)}
 
                 </div>
-
 
                 <div class="contributor-count">
 
@@ -2623,7 +439,6 @@ function displayContributors(
                 </div>
             `;
 
-
             element.addEventListener(
                 "click",
                 function() {
@@ -2635,7 +450,6 @@ function displayContributors(
                         .value =
                             name;
 
-
                     const filtered =
                         contributions.filter(
                             item =>
@@ -2643,11 +457,9 @@ function displayContributors(
                                 name
                         );
 
-
                     displayGallery(
                         filtered
                     );
-
 
                     document
                         .getElementById(
@@ -2657,18 +469,14 @@ function displayContributors(
                             behavior:
                                 "smooth"
                         });
-
                 }
             );
-
 
             container.appendChild(
                 element
             );
-
         }
     );
-
 }
 
 
@@ -2676,20 +484,14 @@ function displayContributors(
    GALLERY
 ===================================================== */
 
-function displayGallery(
-    items
-) {
+function displayGallery(items) {
 
     const container =
         document.getElementById(
             "galleryContainer"
         );
 
-
-    if (
-        !items ||
-        !items.length
-    ) {
+    if (!items || items.length === 0) {
 
         container.innerHTML = `
 
@@ -2705,20 +507,16 @@ function displayGallery(
 
                 <p>
                     Be the first student to
-                    share your contribution!
+                    share a contribution!
                 </p>
 
             </div>
         `;
 
         return;
-
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     items.forEach(
         item => {
@@ -2728,10 +526,8 @@ function displayGallery(
                     "article"
                 );
 
-
             card.className =
                 "card";
-
 
             const mediaType =
                 item.media_type ===
@@ -2739,32 +535,27 @@ function displayGallery(
                     ? "video"
                     : "image";
 
-
             const mediaURL =
                 item.media_url ||
                 "";
 
-
             let mediaHTML;
 
-
-            if (
-                mediaType ===
-                "video"
-            ) {
+            if (mediaType === "video") {
 
                 mediaHTML = `
 
                     <div
                         class="media"
-                        data-media-url="${escapeAttribute(mediaURL)}"
-                        data-media-type="video"
+                        onclick="openMedia(
+                            ${JSON.stringify(mediaURL)},
+                            'video'
+                        )"
                     >
 
                         <span class="media-label">
                             ▶ VIDEO
                         </span>
-
 
                         <video
                             preload="metadata"
@@ -2781,78 +572,36 @@ function displayGallery(
                     </div>
                 `;
 
-            }
-
-            else {
+            } else {
 
                 mediaHTML = `
 
                     <div
                         class="media"
-                        data-media-url="${escapeAttribute(mediaURL)}"
-                        data-media-type="image"
+                        onclick="openMedia(
+                            ${JSON.stringify(mediaURL)},
+                            'image'
+                        )"
                     >
 
                         <span class="media-label">
                             📸 PHOTO
                         </span>
 
-
                         <img
                             src="${escapeAttribute(mediaURL)}"
-                            alt="Contribution from ${escapeAttribute(item.name)}"
+                            alt="Booth contribution from ${escapeAttribute(item.name)}"
                             loading="lazy"
                             onerror="this.style.display='none';"
                         >
 
                     </div>
                 `;
-
             }
-
-
-            let formattedDate =
-                "";
-
-
-            if (item.created_at) {
-
-                const date =
-                    new Date(
-                        item.created_at
-                    );
-
-
-                if (
-                    !isNaN(
-                        date.getTime()
-                    )
-                ) {
-
-                    formattedDate =
-                        date.toLocaleDateString(
-                            "en-PH",
-                            {
-                                year:
-                                    "numeric",
-
-                                month:
-                                    "short",
-
-                                day:
-                                    "numeric"
-                            }
-                        );
-
-                }
-
-            }
-
 
             card.innerHTML = `
 
                 ${mediaHTML}
-
 
                 <div class="card-content">
 
@@ -2863,7 +612,6 @@ function displayGallery(
                         )}
                     </h3>
 
-
                     <div class="card-description">
 
                         ${escapeHTML(
@@ -2873,7 +621,6 @@ function displayGallery(
 
                     </div>
 
-
                     <div class="card-info">
 
                         <span>
@@ -2881,23 +628,17 @@ function displayGallery(
                             👥
 
                             <strong>
+
                                 ${escapeHTML(
                                     item.group_name ||
                                     "No group"
                                 )}
+
                             </strong>
 
                         </span>
 
-
-                        <span>
-                            ${escapeHTML(
-                                formattedDate
-                            )}
-                        </span>
-
                     </div>
-
 
                     <div class="card-actions">
 
@@ -2905,15 +646,16 @@ function displayGallery(
                             class="card-action edit-button"
                             type="button"
                             data-action="edit"
+                            data-id="${escapeAttribute(item.id)}"
                         >
                             ✏ EDIT
                         </button>
-
 
                         <button
                             class="card-action delete-button"
                             type="button"
                             data-action="delete"
+                            data-id="${escapeAttribute(item.id)}"
                         >
                             🗑 DELETE
                         </button>
@@ -2923,37 +665,15 @@ function displayGallery(
                 </div>
             `;
 
-
-            const mediaElement =
-                card.querySelector(
-                    ".media"
-                );
-
-
-            mediaElement.addEventListener(
-                "click",
-                function() {
-
-                    openMedia(
-                        mediaURL,
-                        mediaType
-                    );
-
-                }
-            );
-
-
             const editButton =
                 card.querySelector(
                     '[data-action="edit"]'
                 );
 
-
             const deleteButton =
                 card.querySelector(
                     '[data-action="delete"]'
                 );
-
 
             editButton.addEventListener(
                 "click",
@@ -2964,10 +684,8 @@ function displayGallery(
                     editContribution(
                         item.id
                     );
-
                 }
             );
-
 
             deleteButton.addEventListener(
                 "click",
@@ -2978,18 +696,14 @@ function displayGallery(
                     deleteContribution(
                         item.id
                     );
-
                 }
             );
-
 
             container.appendChild(
                 card
             );
-
         }
     );
-
 }
 
 
@@ -2997,31 +711,23 @@ function displayGallery(
    VIDEO DURATION
 ===================================================== */
 
-function getVideoDuration(
-    file
-) {
+function getVideoDuration(file) {
 
     return new Promise(
-        (
-            resolve,
-            reject
-        ) => {
+        (resolve, reject) => {
 
             const video =
                 document.createElement(
                     "video"
                 );
 
-
             const objectURL =
                 URL.createObjectURL(
                     file
                 );
 
-
             video.preload =
                 "metadata";
-
 
             video.onloadedmetadata =
                 function() {
@@ -3030,13 +736,10 @@ function getVideoDuration(
                         objectURL
                     );
 
-
                     resolve(
                         video.duration
                     );
-
                 };
-
 
             video.onerror =
                 function() {
@@ -3045,22 +748,17 @@ function getVideoDuration(
                         objectURL
                     );
 
-
                     reject(
                         new Error(
                             "The browser could not read the video duration."
                         )
                     );
-
                 };
-
 
             video.src =
                 objectURL;
-
         }
     );
-
 }
 
 
@@ -3069,9 +767,7 @@ function getVideoDuration(
 ===================================================== */
 
 document
-    .getElementById(
-        "mediaFile"
-    )
+    .getElementById("mediaFile")
     .addEventListener(
         "change",
         async function() {
@@ -3079,18 +775,15 @@ document
             const file =
                 this.files[0];
 
-
             const status =
                 document.getElementById(
                     "videoStatus"
                 );
 
-
             const button =
                 document.getElementById(
                     "submitButton"
                 );
-
 
             if (!file) {
 
@@ -3101,9 +794,15 @@ document
                     false;
 
                 return;
-
             }
 
+            /*
+               Supabase bucket was configured for
+               a maximum file size of 2 MB.
+            */
+
+            const MAX_FILE_SIZE =
+                2 * 1024 * 1024;
 
             if (
                 file.size >
@@ -3111,7 +810,7 @@ document
             ) {
 
                 status.textContent =
-                    "❌ File is larger than 2 MB.";
+                    "❌ File is larger than the 2 MB limit.";
 
                 status.style.color =
                     "#ff8585";
@@ -3119,13 +818,8 @@ document
                 button.disabled =
                     true;
 
-                this.value =
-                    "";
-
                 return;
-
             }
-
 
             if (
                 file.type.startsWith(
@@ -3142,14 +836,12 @@ document
                 button.disabled =
                     true;
 
-
                 try {
 
                     const duration =
                         await getVideoDuration(
                             file
                         );
-
 
                     if (
                         duration >
@@ -3166,15 +858,12 @@ document
                             true;
 
                         return;
-
                     }
-
 
                     const minutes =
                         Math.floor(
                             duration / 60
                         );
-
 
                     const seconds =
                         Math.floor(
@@ -3186,7 +875,6 @@ document
                             "0"
                         );
 
-
                     status.textContent =
                         `✅ Video accepted — ${minutes}:${seconds} / 5:00 maximum`;
 
@@ -3196,14 +884,7 @@ document
                     button.disabled =
                         false;
 
-                }
-
-                catch(error) {
-
-                    console.error(
-                        error
-                    );
-
+                } catch(error) {
 
                     status.textContent =
                         "❌ Could not read the video duration.";
@@ -3213,42 +894,34 @@ document
 
                     button.disabled =
                         true;
-
                 }
 
-            }
-
-            else {
+            } else {
 
                 status.textContent =
-                    "✅ Photo selected — under 2 MB.";
+                    "✅ Photo selected.";
 
                 status.style.color =
                     "#9de2af";
 
                 button.disabled =
                     false;
-
             }
-
         }
     );
 
 
 /* =====================================================
-   SUBMIT
+   SUBMIT CONTRIBUTION
 ===================================================== */
 
 document
-    .getElementById(
-        "contributionForm"
-    )
+    .getElementById("contributionForm")
     .addEventListener(
         "submit",
         async function(event) {
 
             event.preventDefault();
-
 
             if (!supabaseClient) {
 
@@ -3258,50 +931,35 @@ document
                 );
 
                 return;
-
             }
-
 
             const name =
                 document
-                    .getElementById(
-                        "name"
-                    )
+                    .getElementById("name")
                     .value
                     .trim();
-
 
             const groupName =
                 document
-                    .getElementById(
-                        "groupName"
-                    )
+                    .getElementById("groupName")
                     .value
                     .trim();
-
 
             const description =
                 document
-                    .getElementById(
-                        "description"
-                    )
+                    .getElementById("description")
                     .value
                     .trim();
 
-
             const file =
                 document
-                    .getElementById(
-                        "mediaFile"
-                    )
+                    .getElementById("mediaFile")
                     .files[0];
-
 
             const button =
                 document.getElementById(
                     "submitButton"
                 );
-
 
             if (
                 !name ||
@@ -3315,9 +973,7 @@ document
                 );
 
                 return;
-
             }
-
 
             if (!file) {
 
@@ -3327,9 +983,14 @@ document
                 );
 
                 return;
-
             }
 
+            /*
+               2 MB maximum.
+            */
+
+            const MAX_FILE_SIZE =
+                2 * 1024 * 1024;
 
             if (
                 file.size >
@@ -3342,29 +1003,23 @@ document
                 );
 
                 return;
-
             }
-
 
             button.disabled =
                 true;
 
-
             button.textContent =
                 "UPLOADING...";
-
 
             updateProgress(
                 10,
                 "Preparing upload..."
             );
 
-
             try {
 
                 let mediaType =
                     "image";
-
 
                 if (
                     file.type.startsWith(
@@ -3375,12 +1030,10 @@ document
                     mediaType =
                         "video";
 
-
                     const duration =
                         await getVideoDuration(
                             file
                         );
-
 
                     if (
                         duration >
@@ -3390,17 +1043,13 @@ document
                         throw new Error(
                             "Videos must be 5 minutes or shorter."
                         );
-
                     }
-
                 }
 
-
                 updateProgress(
-                    20,
+                    25,
                     "Preparing file..."
                 );
-
 
                 const extension =
                     file.name
@@ -3408,23 +1057,27 @@ document
                         .pop()
                         .toLowerCase();
 
-
                 const uniqueName =
                     `${Date.now()}-${crypto.randomUUID()}.${extension}`;
 
+                console.log(
+                    "Uploading:",
+                    uniqueName
+                );
 
                 updateProgress(
-                    30,
+                    40,
                     "Uploading photo/video..."
                 );
 
+                /*
+                   Upload to booth-photos.
+                */
 
                 const uploadResult =
                     await supabaseClient
                         .storage
-                        .from(
-                            STORAGE_BUCKET
-                        )
+                        .from(BUCKET_NAME)
                         .upload(
                             uniqueName,
                             file,
@@ -3440,7 +1093,6 @@ document
                             }
                         );
 
-
                 if (
                     uploadResult.error
                 ) {
@@ -3449,54 +1101,43 @@ document
                         "Storage upload failed: " +
                         uploadResult.error.message
                     );
-
                 }
-
 
                 updateProgress(
                     65,
                     "Creating contribution..."
                 );
 
+                /*
+                   Get public URL.
+                */
 
                 const publicResult =
                     supabaseClient
                         .storage
-                        .from(
-                            STORAGE_BUCKET
-                        )
+                        .from(BUCKET_NAME)
                         .getPublicUrl(
                             uniqueName
                         );
-
 
                 const mediaURL =
                     publicResult
                         .data
                         .publicUrl;
 
+                /*
+                   Save record.
 
-                if (!mediaURL) {
-
-                    throw new Error(
-                        "Could not create a public URL for the uploaded file."
-                    );
-
-                }
-
-
-                updateProgress(
-                    75,
-                    "Saving contribution..."
-                );
-
+                   IMPORTANT:
+                   We only insert columns that
+                   the booth table needs.
+                */
 
                 const insertResult =
                     await supabaseClient
-                        .from(
-                            DATABASE_TABLE
-                        )
+                        .from(TABLE_NAME)
                         .insert({
+
                             name:
                                 name,
 
@@ -3511,10 +1152,10 @@ document
 
                             media_type:
                                 mediaType
+
                         })
                         .select()
                         .single();
-
 
                 if (
                     insertResult.error
@@ -3527,45 +1168,35 @@ document
 
                     await supabaseClient
                         .storage
-                        .from(
-                            STORAGE_BUCKET
-                        )
+                        .from(BUCKET_NAME)
                         .remove([
                             uniqueName
                         ]);
-
 
                     throw new Error(
                         "Database insert failed: " +
                         insertResult.error.message
                     );
-
                 }
-
 
                 updateProgress(
                     90,
                     "Refreshing contribution wall..."
                 );
 
-
                 await loadContributions();
-
 
                 updateProgress(
                     100,
                     "Contribution added!"
                 );
 
-
                 showToast(
                     "🎉 Your contribution has been added!",
                     "success"
                 );
 
-
                 this.reset();
-
 
                 document
                     .getElementById(
@@ -3574,10 +1205,8 @@ document
                     .textContent =
                         "";
 
-
                 button.textContent =
                     "SUBMIT CONTRIBUTION";
-
 
                 setTimeout(
                     function() {
@@ -3595,15 +1224,12 @@ document
                     500
                 );
 
-            }
-
-            catch(error) {
+            } catch(error) {
 
                 console.error(
                     "Submission error:",
                     error
                 );
-
 
                 showToast(
                     error.message ||
@@ -3611,17 +1237,13 @@ document
                     "error"
                 );
 
-
                 button.textContent =
                     "SUBMIT CONTRIBUTION";
 
-            }
-
-            finally {
+            } finally {
 
                 button.disabled =
                     false;
-
 
                 setTimeout(
                     function() {
@@ -3636,9 +1258,7 @@ document
                     },
                     1000
                 );
-
             }
-
         }
     );
 
@@ -3647,16 +1267,11 @@ document
    EDIT
 ===================================================== */
 
-async function editContribution(
-    id
-) {
+async function editContribution(id) {
 
     if (!verifyAdmin()) {
-
         return;
-
     }
-
 
     const item =
         contributions.find(
@@ -3666,7 +1281,6 @@ async function editContribution(
                 ) ===
                 String(id)
         );
-
 
     if (!item) {
 
@@ -3676,60 +1290,45 @@ async function editContribution(
         );
 
         return;
-
     }
-
 
     const newName =
         prompt(
             "Contributor name:",
-            item.name
+            item.name || ""
         );
 
-
     if (newName === null) {
-
         return;
-
     }
-
 
     const newGroup =
         prompt(
             "Section / Group:",
-            item.group_name
+            item.group_name || ""
         );
 
-
     if (newGroup === null) {
-
         return;
-
     }
-
 
     const newDescription =
         prompt(
             "Contribution description:",
-            item.description
+            item.description || ""
         );
 
-
     if (newDescription === null) {
-
         return;
-
     }
-
 
     try {
 
         const result =
             await supabaseClient
-                .from(
-                    DATABASE_TABLE
-                )
+                .from(TABLE_NAME)
                 .update({
+
                     name:
                         newName.trim(),
 
@@ -3738,45 +1337,34 @@ async function editContribution(
 
                     description:
                         newDescription.trim()
+
                 })
                 .eq(
                     "id",
                     id
                 );
 
-
         if (result.error) {
-
             throw result.error;
-
         }
 
-
         await loadContributions();
-
 
         showToast(
             "Contribution updated successfully!",
             "success"
         );
 
-    }
+    } catch(error) {
 
-    catch(error) {
-
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         showToast(
             "Could not update contribution: " +
             error.message,
             "error"
         );
-
     }
-
 }
 
 
@@ -3784,16 +1372,11 @@ async function editContribution(
    DELETE
 ===================================================== */
 
-async function deleteContribution(
-    id
-) {
+async function deleteContribution(id) {
 
     if (!verifyAdmin()) {
-
         return;
-
     }
-
 
     const item =
         contributions.find(
@@ -3804,73 +1387,54 @@ async function deleteContribution(
                 String(id)
         );
 
-
     if (!item) {
-
         return;
-
     }
-
 
     const confirmed =
         confirm(
             `Delete ${item.name}'s contribution?\n\nThis cannot be undone.`
         );
 
-
     if (!confirmed) {
-
         return;
-
     }
-
 
     try {
 
         const deleteResult =
             await supabaseClient
-                .from(
-                    DATABASE_TABLE
-                )
+                .from(TABLE_NAME)
                 .delete()
                 .eq(
                     "id",
                     id
                 );
 
-
-        if (deleteResult.error) {
+        if (
+            deleteResult.error
+        ) {
 
             throw deleteResult.error;
-
         }
 
-
         await loadContributions();
-
 
         showToast(
             "Contribution deleted.",
             "success"
         );
 
-    }
+    } catch(error) {
 
-    catch(error) {
-
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         showToast(
             "Could not delete contribution: " +
             error.message,
             "error"
         );
-
     }
-
 }
 
 
@@ -3885,7 +1449,6 @@ function verifyAdmin() {
             "Enter administrator PIN:"
         );
 
-
     if (
         entered !==
         ADMIN_PIN
@@ -3896,14 +1459,10 @@ function verifyAdmin() {
             "error"
         );
 
-
         return false;
-
     }
 
-
     return true;
-
 }
 
 
@@ -3912,9 +1471,7 @@ function verifyAdmin() {
 ===================================================== */
 
 document
-    .getElementById(
-        "searchInput"
-    )
+    .getElementById("searchInput")
     .addEventListener(
         "input",
         function() {
@@ -3924,11 +1481,9 @@ document
                     .trim()
                     .toLowerCase();
 
-
             displayContributors(
                 query
             );
-
 
             if (!query) {
 
@@ -3937,9 +1492,7 @@ document
                 );
 
                 return;
-
             }
-
 
             const filtered =
                 contributions.filter(
@@ -3954,11 +1507,9 @@ document
                         )
                 );
 
-
             displayGallery(
                 filtered
             );
-
         }
     );
 
@@ -3967,22 +1518,17 @@ document
    MEDIA MODAL
 ===================================================== */
 
-function openMedia(
-    url,
-    type
-) {
+function openMedia(url, type) {
 
     const modal =
         document.getElementById(
             "mediaModal"
         );
 
-
     const container =
         document.getElementById(
             "modalMedia"
         );
-
 
     if (type === "video") {
 
@@ -4004,9 +1550,7 @@ function openMedia(
             </video>
         `;
 
-    }
-
-    else {
+    } else {
 
         container.innerHTML = `
 
@@ -4015,14 +1559,11 @@ function openMedia(
                 alt="Booth contribution"
             >
         `;
-
     }
-
 
     modal.classList.add(
         "active"
     );
-
 }
 
 
@@ -4033,28 +1574,22 @@ function closeMediaModal() {
             "mediaModal"
         );
 
-
     const container =
         document.getElementById(
             "modalMedia"
         );
 
-
     container.innerHTML =
         "";
-
 
     modal.classList.remove(
         "active"
     );
-
 }
 
 
 document
-    .getElementById(
-        "mediaModal"
-    )
+    .getElementById("mediaModal")
     .addEventListener(
         "click",
         function(event) {
@@ -4065,9 +1600,7 @@ document
             ) {
 
                 closeMediaModal();
-
             }
-
         }
     );
 
@@ -4082,9 +1615,7 @@ document.addEventListener(
         ) {
 
             closeMediaModal();
-
         }
-
     }
 );
 
@@ -4103,30 +1634,24 @@ function updateProgress(
             "progressContainer"
         );
 
-
     const fill =
         document.getElementById(
             "progressFill"
         );
-
 
     const text =
         document.getElementById(
             "progressText"
         );
 
-
     container.style.display =
         "block";
-
 
     fill.style.width =
         percentage + "%";
 
-
     text.textContent =
         message;
-
 }
 
 
@@ -4148,14 +1673,11 @@ function showToast(
             "toast"
         );
 
-
     toast.textContent =
         message;
 
-
     toast.className =
         `toast ${type}`;
-
 
     setTimeout(
         function() {
@@ -4168,15 +1690,12 @@ function showToast(
         10
     );
 
-
     if (toastTimer) {
 
         clearTimeout(
             toastTimer
         );
-
     }
-
 
     toastTimer =
         setTimeout(
@@ -4189,7 +1708,6 @@ function showToast(
             },
             4500
         );
-
 }
 
 
@@ -4197,9 +1715,7 @@ function showToast(
    ESCAPE HTML
 ===================================================== */
 
-function escapeHTML(
-    value
-) {
+function escapeHTML(value) {
 
     return String(
         value ?? ""
@@ -4224,7 +1740,6 @@ function escapeHTML(
         /'/g,
         "&#039;"
     );
-
 }
 
 
@@ -4232,19 +1747,11 @@ function escapeHTML(
    ESCAPE ATTRIBUTE
 ===================================================== */
 
-function escapeAttribute(
-    value
-) {
+function escapeAttribute(value) {
 
     return escapeHTML(
         value
     );
-
 }
 
 </script>
-
-
-</body>
-
-</html>
