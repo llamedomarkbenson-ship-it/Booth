@@ -1,1025 +1,1447 @@
-<script>
-/* =====================================================
-   SUPABASE CONFIGURATION
-===================================================== */
+<!DOCTYPE html>
+<html lang="en">
 
-const SUPABASE_URL =
-    "https://eqebdzbduixoyrqpsbui.supabase.co";
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_tXcX-ng7EVHVaF1jaHXPlh7Ip98L";
+    <title>Fleming Booth Contributions</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 42px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 18px;
+            opacity: 0.85;
+        }
+
+        .container {
+            width: min(1200px, 94%);
+            margin: 0 auto;
+        }
+
+        .section {
+            margin: 35px 0;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #333;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #111;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            opacity: 0.9;
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #videoStatus {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        #progressContainer {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        #progressFill {
+            height: 100%;
+            width: 0%;
+            background: #111;
+            transition: width 0.3s;
+        }
+
+        #progressText {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .statistics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            margin-top: 5px;
+            color: #666;
+        }
+
+        .search-box {
+            margin-bottom: 25px;
+        }
+
+        .contributors {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .contributor {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .contributor:hover {
+            transform: translateY(-2px);
+        }
+
+        .contributor-name {
+            font-weight: bold;
+        }
+
+        .contributor-count {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .media {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            background: #ddd;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .media img,
+        .media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 2;
+            background: rgba(0,0,0,0.75);
+            color: white;
+            padding: 6px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            margin: 0 0 10px;
+        }
+
+        .card-description {
+            color: #555;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .card-info {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 18px;
+        }
+
+        .card-action {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-button {
+            background: #eee;
+        }
+
+        .delete-button {
+            background: #222;
+            color: white;
+        }
+
+        .loading,
+        .empty,
+        .database-error {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .database-error {
+            border: 2px solid #c00;
+            color: #900;
+        }
+
+        .database-error code {
+            display: block;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f5f5f5;
+            color: #700;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 4px solid #ddd;
+            border-top-color: #111;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            max-width: 350px;
+            padding: 15px 20px;
+            background: #111;
+            color: white;
+            border-radius: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all 0.3s;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: #a00;
+        }
+
+        .toast.success {
+            background: #111;
+        }
+
+        #mediaModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #mediaModal.active {
+            display: flex;
+        }
+
+        #modalMedia {
+            max-width: 95vw;
+            max-height: 90vh;
+        }
+
+        #modalMedia img,
+        #modalMedia video {
+            max-width: 95vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        @media (max-width: 700px) {
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            .statistics {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
 
 
-/* =====================================================
-   SUPABASE INITIALIZATION
-===================================================== */
+<body>
 
-let supabaseClient = null;
+    <header>
 
-function initializeSupabase() {
+        <div class="container">
 
-    try {
+            <h1>Fleming Booth</h1>
+
+            <p>
+                Share your photos, videos, and contributions
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <main class="container">
+
+
+        <!-- ==============================
+             CONTRIBUTION FORM
+        =============================== -->
+
+        <section class="section">
+
+            <div class="form-card">
+
+                <h2>Submit Your Contribution</h2>
+
+                <form id="contributionForm">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Your Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            required
+                            placeholder="Enter your name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="groupName">
+                            Section / Group
+                        </label>
+
+                        <input
+                            type="text"
+                            id="groupName"
+                            required
+                            placeholder="Enter your section or group"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            required
+                            placeholder="Tell us about your contribution..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="mediaFile">
+                            Photo or Video
+                        </label>
+
+                        <input
+                            type="file"
+                            id="mediaFile"
+                            accept="image/*,video/*"
+                            required
+                        >
+
+                        <div id="videoStatus"></div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="submitButton"
+                        class="submit-button"
+                    >
+                        SUBMIT CONTRIBUTION
+                    </button>
+
+
+                    <div id="progressContainer">
+
+                        <div class="progress-bar">
+
+                            <div id="progressFill"></div>
+
+                        </div>
+
+                        <div id="progressText"></div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             STATISTICS
+        =============================== -->
+
+        <section class="section">
+
+            <div class="statistics">
+
+                <div class="stat">
+
+                    <div
+                        class="stat-number"
+                        id="totalContributions"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Contributions
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div
+                        class="stat-number"
+                        id="totalContributors"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Contributors
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div
+                        class="stat-number"
+                        id="totalMedia"
+                    >
+                        0
+                    </div>
+
+                    <div class="stat-label">
+                        Photos / Videos
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             CONTRIBUTORS
+        =============================== -->
+
+        <section class="section">
+
+            <h2>Contributors</h2>
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search contributors..."
+                >
+
+            </div>
+
+            <div
+                class="contributors"
+                id="contributorList"
+            >
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading contributors...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             GALLERY
+        =============================== -->
+
+        <section
+            class="section"
+            id="gallery"
+        >
+
+            <h2>Contribution Gallery</h2>
+
+            <div
+                class="gallery"
+                id="galleryContainer"
+            >
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading contributions...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==============================
+         MEDIA MODAL
+    =============================== -->
+
+    <div id="mediaModal">
+
+        <div id="modalMedia"></div>
+
+    </div>
+
+
+    <!-- ==============================
+         TOAST
+    =============================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+    <!-- ==========================================================
+         JAVASCRIPT
+         IMPORTANT: This is AFTER all HTML elements.
+    =========================================================== -->
+
+    <script>
+
+        /* ==========================================
+           SUPABASE CONFIGURATION
+        ========================================== */
+
+        const SUPABASE_URL =
+            "https://eqebdzbduixoyrqpsbui.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_tXcX-ng7EVHVaF1jaHXPlA_lh7Ip98L";
+
+
+        /* ==========================================
+           BOOTH CONFIGURATION
+        ========================================== */
+
+        const TABLE_NAME =
+            "booth_contributions";
+
+        const BUCKET_NAME =
+            "booth-photos";
+
+        const MAX_FILE_SIZE =
+            2 * 1024 * 1024;
+
+        const MAX_VIDEO_SECONDS =
+            5 * 60;
+
+        const ADMIN_PIN =
+            "123456";
+
+
+        /* ==========================================
+           SUPABASE CLIENT
+        ========================================== */
+
+        let supabaseClient = null;
+
+        let contributions = [];
+
 
         if (!window.supabase) {
-            throw new Error(
-                "Supabase library did not load."
-            );
-        }
 
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
-
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "Supabase initialization error:",
-            error
-        );
-
-        showConnectionError(
-            error.message
-        );
-
-        return false;
-    }
-}
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-const TABLE_NAME =
-    "booth_contributions";
-
-const BUCKET_NAME =
-    "booth-photos";
-
-const MAX_VIDEO_SECONDS =
-    5 * 60;
-
-
-/*
-   CHANGE THIS PIN IF YOU WANT.
-*/
-
-const ADMIN_PIN =
-    "123456";
-
-
-let contributions = [];
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-        const initialized =
-            initializeSupabase();
-
-        if (!initialized) {
-            return;
-        }
-
-        await loadContributions();
-    }
-);
-
-
-/* =====================================================
-   LOAD CONTRIBUTIONS
-===================================================== */
-
-async function loadContributions() {
-
-    showLoading();
-
-    try {
-
-        console.log(
-            "Loading booth contributions..."
-        );
-
-        /*
-           IMPORTANT:
-           We do NOT use created_at here because
-           your table does not have that column.
-        */
-
-        const response =
-            await supabaseClient
-                .from(TABLE_NAME)
-                .select("*");
-
-        console.log(
-            "Supabase response:",
-            response
-        );
-
-        if (response.error) {
-            throw response.error;
-        }
-
-        contributions =
-            response.data || [];
-
-        updateStatistics();
-
-        displayContributors();
-
-        displayGallery(
-            contributions
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Unable to load contributions:",
-            error
-        );
-
-        showDatabaseError(
-            error
-        );
-    }
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function showLoading() {
-
-    document
-        .getElementById("contributorList")
-        .innerHTML = `
-
-            <div class="loading">
-
-                <div class="spinner"></div>
-
-                Loading contributors...
-
-            </div>
-        `;
-
-    document
-        .getElementById("galleryContainer")
-        .innerHTML = `
-
-            <div class="loading">
-
-                <div class="spinner"></div>
-
-                Loading contributions...
-
-            </div>
-        `;
-}
-
-
-/* =====================================================
-   CONNECTION ERROR
-===================================================== */
-
-function showConnectionError(message) {
-
-    document
-        .getElementById("contributorList")
-        .innerHTML = `
-
-            <div class="database-error">
-
-                <h3>
-                    ⚠️ Supabase Connection Error
-                </h3>
-
-                <p>
-                    The website could not connect
-                    to Supabase.
-                </p>
-
-                <code>
-                    ${escapeHTML(message)}
-                </code>
-
-            </div>
-        `;
-
-    document
-        .getElementById("galleryContainer")
-        .innerHTML = `
-
-            <div class="database-error">
-
-                <h3>
-                    ⚠️ Supabase Connection Error
-                </h3>
-
-                <p>
-                    Check your Supabase project URL
-                    and publishable key.
-                </p>
-
-                <code>
-                    ${escapeHTML(message)}
-                </code>
-
-            </div>
-        `;
-}
-
-
-/* =====================================================
-   DATABASE ERROR
-===================================================== */
-
-function showDatabaseError(error) {
-
-    const message =
-        error?.message ||
-        "Unknown database error.";
-
-    document
-        .getElementById("contributorList")
-        .innerHTML = `
-
-            <div class="database-error">
-
-                <h3>
-                    ⚠️ Could Not Load Contributors
-                </h3>
-
-                <p>
-                    Check the booth_contributions
-                    table and its policies.
-                </p>
-
-                <code>
-                    ${escapeHTML(message)}
-                </code>
-
-            </div>
-        `;
-
-    document
-        .getElementById("galleryContainer")
-        .innerHTML = `
-
-            <div class="database-error">
-
-                <h3>
-                    ⚠️ Could Not Load Contributions
-                </h3>
-
-                <p>
-                    Check the booth_contributions
-                    table and its policies.
-                </p>
-
-                <code>
-                    ${escapeHTML(message)}
-                </code>
-
-            </div>
-        `;
-}
-
-
-/* =====================================================
-   STATISTICS
-===================================================== */
-
-function updateStatistics() {
-
-    const names =
-        new Set();
-
-    contributions.forEach(
-        item => {
-
-            if (item.name) {
-
-                names.add(
-                    item.name
-                        .trim()
-                        .toLowerCase()
-                );
-            }
-        }
-    );
-
-    document
-        .getElementById(
-            "totalContributions"
-        )
-        .textContent =
-            contributions.length;
-
-    document
-        .getElementById(
-            "totalContributors"
-        )
-        .textContent =
-            names.size;
-
-    document
-        .getElementById(
-            "totalMedia"
-        )
-        .textContent =
-            contributions.length;
-}
-
-
-/* =====================================================
-   CONTRIBUTORS
-===================================================== */
-
-function displayContributors(search = "") {
-
-    const container =
-        document.getElementById(
-            "contributorList"
-        );
-
-    const grouped = {};
-
-    contributions.forEach(
-        item => {
-
-            const name =
-                (
-                    item.name ||
-                    "Unknown Contributor"
-                ).trim();
-
-            if (!grouped[name]) {
-                grouped[name] = 0;
-            }
-
-            grouped[name]++;
-        }
-    );
-
-    const people =
-        Object.entries(grouped)
-            .filter(
-                ([name]) =>
-                    name
-                        .toLowerCase()
-                        .includes(
-                            search.toLowerCase()
-                        )
-            )
-            .sort(
-                ([a], [b]) =>
-                    a.localeCompare(b)
-            );
-
-    if (people.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    👤
-                </div>
-
-                No contributors yet.
-
-            </div>
-        `;
-
-        return;
-    }
-
-    container.innerHTML = "";
-
-    people.forEach(
-        ([name, count]) => {
-
-            const element =
-                document.createElement(
-                    "div"
-                );
-
-            element.className =
-                "contributor";
-
-            element.innerHTML = `
-
-                <div class="contributor-name">
-
-                    👤
-                    ${escapeHTML(name)}
-
-                </div>
-
-                <div class="contributor-count">
-
-                    ${count}
-                    contribution${
-                        count === 1
-                            ? ""
-                            : "s"
-                    }
-
-                </div>
-            `;
-
-            element.addEventListener(
-                "click",
-                function() {
-
-                    document
-                        .getElementById(
-                            "searchInput"
-                        )
-                        .value =
-                            name;
-
-                    const filtered =
-                        contributions.filter(
-                            item =>
-                                item.name ===
-                                name
-                        );
-
-                    displayGallery(
-                        filtered
-                    );
-
-                    document
-                        .getElementById(
-                            "gallery"
-                        )
-                        .scrollIntoView({
-                            behavior:
-                                "smooth"
-                        });
-                }
-            );
-
-            container.appendChild(
-                element
-            );
-        }
-    );
-}
-
-
-/* =====================================================
-   GALLERY
-===================================================== */
-
-function displayGallery(items) {
-
-    const container =
-        document.getElementById(
-            "galleryContainer"
-        );
-
-    if (!items || items.length === 0) {
-
-        container.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    📸
-                </div>
-
-                <h3>
-                    No contributions yet.
-                </h3>
-
-                <p>
-                    Be the first student to
-                    share a contribution!
-                </p>
-
-            </div>
-        `;
-
-        return;
-    }
-
-    container.innerHTML = "";
-
-    items.forEach(
-        item => {
-
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-            card.className =
-                "card";
-
-            const mediaType =
-                item.media_type ===
-                "video"
-                    ? "video"
-                    : "image";
-
-            const mediaURL =
-                item.media_url ||
-                "";
-
-            let mediaHTML;
-
-            if (mediaType === "video") {
-
-                mediaHTML = `
-
-                    <div
-                        class="media"
-                        onclick="openMedia(
-                            ${JSON.stringify(mediaURL)},
-                            'video'
-                        )"
-                    >
-
-                        <span class="media-label">
-                            ▶ VIDEO
-                        </span>
-
-                        <video
-                            preload="metadata"
-                            muted
-                            playsinline
-                        >
-
-                            <source
-                                src="${escapeAttribute(mediaURL)}"
-                            >
-
-                        </video>
-
-                    </div>
-                `;
-
-            } else {
-
-                mediaHTML = `
-
-                    <div
-                        class="media"
-                        onclick="openMedia(
-                            ${JSON.stringify(mediaURL)},
-                            'image'
-                        )"
-                    >
-
-                        <span class="media-label">
-                            📸 PHOTO
-                        </span>
-
-                        <img
-                            src="${escapeAttribute(mediaURL)}"
-                            alt="Booth contribution from ${escapeAttribute(item.name)}"
-                            loading="lazy"
-                            onerror="this.style.display='none';"
-                        >
-
-                    </div>
-                `;
-            }
-
-            card.innerHTML = `
-
-                ${mediaHTML}
-
-                <div class="card-content">
-
-                    <h3>
-                        ${escapeHTML(
-                            item.name ||
-                            "Unknown Contributor"
-                        )}
-                    </h3>
-
-                    <div class="card-description">
-
-                        ${escapeHTML(
-                            item.description ||
-                            "No description provided."
-                        )}
-
-                    </div>
-
-                    <div class="card-info">
-
-                        <span>
-
-                            👥
-
-                            <strong>
-
-                                ${escapeHTML(
-                                    item.group_name ||
-                                    "No group"
-                                )}
-
-                            </strong>
-
-                        </span>
-
-                    </div>
-
-                    <div class="card-actions">
-
-                        <button
-                            class="card-action edit-button"
-                            type="button"
-                            data-action="edit"
-                            data-id="${escapeAttribute(item.id)}"
-                        >
-                            ✏ EDIT
-                        </button>
-
-                        <button
-                            class="card-action delete-button"
-                            type="button"
-                            data-action="delete"
-                            data-id="${escapeAttribute(item.id)}"
-                        >
-                            🗑 DELETE
-                        </button>
-
-                    </div>
-
-                </div>
-            `;
-
-            const editButton =
-                card.querySelector(
-                    '[data-action="edit"]'
-                );
-
-            const deleteButton =
-                card.querySelector(
-                    '[data-action="delete"]'
-                );
-
-            editButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.stopPropagation();
-
-                    editContribution(
-                        item.id
-                    );
-                }
-            );
-
-            deleteButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.stopPropagation();
-
-                    deleteContribution(
-                        item.id
-                    );
-                }
-            );
-
-            container.appendChild(
-                card
-            );
-        }
-    );
-}
-
-
-/* =====================================================
-   VIDEO DURATION
-===================================================== */
-
-function getVideoDuration(file) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const video =
-                document.createElement(
-                    "video"
-                );
-
-            const objectURL =
-                URL.createObjectURL(
-                    file
-                );
-
-            video.preload =
-                "metadata";
-
-            video.onloadedmetadata =
-                function() {
-
-                    URL.revokeObjectURL(
-                        objectURL
-                    );
-
-                    resolve(
-                        video.duration
-                    );
-                };
-
-            video.onerror =
-                function() {
-
-                    URL.revokeObjectURL(
-                        objectURL
-                    );
-
-                    reject(
-                        new Error(
-                            "The browser could not read the video duration."
-                        )
-                    );
-                };
-
-            video.src =
-                objectURL;
-        }
-    );
-}
-
-
-/* =====================================================
-   FILE SELECTION
-===================================================== */
-
-document
-    .getElementById("mediaFile")
-    .addEventListener(
-        "change",
-        async function() {
-
-            const file =
-                this.files[0];
-
-            const status =
-                document.getElementById(
-                    "videoStatus"
-                );
-
-            const button =
-                document.getElementById(
-                    "submitButton"
-                );
-
-            if (!file) {
-
-                status.textContent =
-                    "";
-
-                button.disabled =
-                    false;
-
-                return;
-            }
-
-            /*
-               Supabase bucket was configured for
-               a maximum file size of 2 MB.
-            */
-
-            const MAX_FILE_SIZE =
-                2 * 1024 * 1024;
-
-            if (
-                file.size >
-                MAX_FILE_SIZE
-            ) {
-
-                status.textContent =
-                    "❌ File is larger than the 2 MB limit.";
-
-                status.style.color =
-                    "#ff8585";
-
-                button.disabled =
-                    true;
-
-                return;
-            }
-
-            if (
-                file.type.startsWith(
-                    "video/"
+            showDatabaseError(
+                new Error(
+                    "Supabase library did not load."
                 )
-            ) {
-
-                status.textContent =
-                    "Checking video duration...";
-
-                status.style.color =
-                    "#f2d68f";
-
-                button.disabled =
-                    true;
-
-                try {
-
-                    const duration =
-                        await getVideoDuration(
-                            file
-                        );
-
-                    if (
-                        duration >
-                        MAX_VIDEO_SECONDS
-                    ) {
-
-                        status.textContent =
-                            "❌ This video is longer than 5 minutes.";
-
-                        status.style.color =
-                            "#ff8585";
-
-                        button.disabled =
-                            true;
-
-                        return;
-                    }
-
-                    const minutes =
-                        Math.floor(
-                            duration / 60
-                        );
-
-                    const seconds =
-                        Math.floor(
-                            duration % 60
-                        )
-                        .toString()
-                        .padStart(
-                            2,
-                            "0"
-                        );
-
-                    status.textContent =
-                        `✅ Video accepted — ${minutes}:${seconds} / 5:00 maximum`;
-
-                    status.style.color =
-                        "#9de2af";
-
-                    button.disabled =
-                        false;
-
-                } catch(error) {
-
-                    status.textContent =
-                        "❌ Could not read the video duration.";
-
-                    status.style.color =
-                        "#ff8585";
-
-                    button.disabled =
-                        true;
-                }
-
-            } else {
-
-                status.textContent =
-                    "✅ Photo selected.";
-
-                status.style.color =
-                    "#9de2af";
-
-                button.disabled =
-                    false;
-            }
-        }
-    );
-
-
-/* =====================================================
-   SUBMIT CONTRIBUTION
-===================================================== */
-
-document
-    .getElementById("contributionForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-            if (!supabaseClient) {
-
-                showToast(
-                    "Supabase is not connected.",
-                    "error"
-                );
-
-                return;
-            }
-
-            const name =
-                document
-                    .getElementById("name")
-                    .value
-                    .trim();
-
-            const groupName =
-                document
-                    .getElementById("groupName")
-                    .value
-                    .trim();
-
-            const description =
-                document
-                    .getElementById("description")
-                    .value
-                    .trim();
-
-            const file =
-                document
-                    .getElementById("mediaFile")
-                    .files[0];
-
-            const button =
-                document.getElementById(
-                    "submitButton"
-                );
-
-            if (
-                !name ||
-                !groupName ||
-                !description
-            ) {
-
-                showToast(
-                    "Please complete all fields.",
-                    "error"
-                );
-
-                return;
-            }
-
-            if (!file) {
-
-                showToast(
-                    "Please select a photo or video.",
-                    "error"
-                );
-
-                return;
-            }
-
-            /*
-               2 MB maximum.
-            */
-
-            const MAX_FILE_SIZE =
-                2 * 1024 * 1024;
-
-            if (
-                file.size >
-                MAX_FILE_SIZE
-            ) {
-
-                showToast(
-                    "The selected file is larger than 2 MB.",
-                    "error"
-                );
-
-                return;
-            }
-
-            button.disabled =
-                true;
-
-            button.textContent =
-                "UPLOADING...";
-
-            updateProgress(
-                10,
-                "Preparing upload..."
             );
+
+        } else {
 
             try {
 
-                let mediaType =
-                    "image";
+                supabaseClient =
+                    window.supabase.createClient(
+                        SUPABASE_URL,
+                        SUPABASE_KEY
+                    );
+
+                console.log(
+                    "Supabase initialized successfully."
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Supabase initialization error:",
+                    error
+                );
+
+                showDatabaseError(error);
+            }
+
+        }
+
+
+        /* ==========================================
+           LOAD CONTRIBUTIONS
+        ========================================== */
+
+        async function loadContributions() {
+
+            showLoading();
+
+            try {
+
+                const response =
+                    await supabaseClient
+                        .from(TABLE_NAME)
+                        .select("*");
+
+
+                console.log(
+                    "Supabase response:",
+                    response
+                );
+
+
+                if (response.error) {
+                    throw response.error;
+                }
+
+
+                contributions =
+                    response.data || [];
+
+
+                updateStatistics();
+
+                displayContributors();
+
+                displayGallery(
+                    contributions
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load contributions:",
+                    error
+                );
+
+                showDatabaseError(error);
+            }
+
+        }
+
+
+        /* ==========================================
+           INITIAL LOAD
+        ========================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                if (supabaseClient) {
+
+                    loadContributions();
+
+                }
+
+            }
+        );
+
+
+        /* ==========================================
+           LOADING
+        ========================================== */
+
+        function showLoading() {
+
+            document.getElementById(
+                "contributorList"
+            ).innerHTML = `
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading contributors...
+
+                </div>
+            `;
+
+
+            document.getElementById(
+                "galleryContainer"
+            ).innerHTML = `
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading contributions...
+
+                </div>
+            `;
+        }
+
+
+        /* ==========================================
+           DATABASE ERROR
+        ========================================== */
+
+        function showDatabaseError(error) {
+
+            const message =
+                error?.message ||
+                "Unknown error.";
+
+
+            const contributorList =
+                document.getElementById(
+                    "contributorList"
+                );
+
+
+            const galleryContainer =
+                document.getElementById(
+                    "galleryContainer"
+                );
+
+
+            if (contributorList) {
+
+                contributorList.innerHTML = `
+
+                    <div class="database-error">
+
+                        <h3>
+                            ⚠️ Could Not Load Contributors
+                        </h3>
+
+                        <p>
+                            Check the booth_contributions
+                            table and its policies.
+                        </p>
+
+                        <code>
+                            ${escapeHTML(message)}
+                        </code>
+
+                    </div>
+                `;
+            }
+
+
+            if (galleryContainer) {
+
+                galleryContainer.innerHTML = `
+
+                    <div class="database-error">
+
+                        <h3>
+                            ⚠️ Could Not Load Contributions
+                        </h3>
+
+                        <p>
+                            Check the Booth Supabase
+                            configuration.
+                        </p>
+
+                        <code>
+                            ${escapeHTML(message)}
+                        </code>
+
+                    </div>
+                `;
+            }
+
+        }
+
+
+        /* ==========================================
+           STATISTICS
+        ========================================== */
+
+        function updateStatistics() {
+
+            const names =
+                new Set();
+
+
+            contributions.forEach(
+                item => {
+
+                    if (item.name) {
+
+                        names.add(
+                            item.name
+                                .trim()
+                                .toLowerCase()
+                        );
+
+                    }
+
+                }
+            );
+
+
+            document.getElementById(
+                "totalContributions"
+            ).textContent =
+                contributions.length;
+
+
+            document.getElementById(
+                "totalContributors"
+            ).textContent =
+                names.size;
+
+
+            document.getElementById(
+                "totalMedia"
+            ).textContent =
+                contributions.length;
+
+        }
+
+
+        /* ==========================================
+           CONTRIBUTORS
+        ========================================== */
+
+        function displayContributors(
+            search = ""
+        ) {
+
+            const container =
+                document.getElementById(
+                    "contributorList"
+                );
+
+
+            const grouped = {};
+
+
+            contributions.forEach(
+                item => {
+
+                    const name =
+                        (
+                            item.name ||
+                            "Unknown Contributor"
+                        ).trim();
+
+
+                    if (!grouped[name]) {
+                        grouped[name] = 0;
+                    }
+
+
+                    grouped[name]++;
+
+                }
+            );
+
+
+            const people =
+                Object.entries(grouped)
+                    .filter(
+                        ([name]) =>
+                            name
+                                .toLowerCase()
+                                .includes(
+                                    search.toLowerCase()
+                                )
+                    )
+                    .sort(
+                        ([a], [b]) =>
+                            a.localeCompare(b)
+                    );
+
+
+            if (people.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            👤
+                        </div>
+
+                        No contributors yet.
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            people.forEach(
+                ([name, count]) => {
+
+                    const element =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    element.className =
+                        "contributor";
+
+
+                    element.innerHTML = `
+
+                        <div class="contributor-name">
+
+                            👤
+                            ${escapeHTML(name)}
+
+                        </div>
+
+                        <div class="contributor-count">
+
+                            ${count}
+                            contribution${count === 1 ? "" : "s"}
+
+                        </div>
+
+                    `;
+
+
+                    element.addEventListener(
+                        "click",
+                        function() {
+
+                            document.getElementById(
+                                "searchInput"
+                            ).value =
+                                name;
+
+
+                            const filtered =
+                                contributions.filter(
+                                    item =>
+                                        (
+                                            item.name ||
+                                            ""
+                                        ).trim() ===
+                                        name
+                                );
+
+
+                            displayGallery(
+                                filtered
+                            );
+
+
+                            document.getElementById(
+                                "gallery"
+                            ).scrollIntoView({
+                                behavior:
+                                    "smooth"
+                            });
+
+                        }
+                    );
+
+
+                    container.appendChild(
+                        element
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ==========================================
+           GALLERY
+        ========================================== */
+
+        function displayGallery(items) {
+
+            const container =
+                document.getElementById(
+                    "galleryContainer"
+                );
+
+
+            if (!items || items.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            📸
+                        </div>
+
+                        <h3>
+                            No contributions yet.
+                        </h3>
+
+                        <p>
+                            Be the first to share
+                            a contribution!
+                        </p>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            items.forEach(
+                item => {
+
+                    const card =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    card.className =
+                        "card";
+
+
+                    const mediaType =
+                        item.media_type === "video"
+                            ? "video"
+                            : "image";
+
+
+                    const mediaURL =
+                        item.media_url || "";
+
+
+                    let mediaHTML;
+
+
+                    if (mediaType === "video") {
+
+                        mediaHTML = `
+
+                            <div
+                                class="media"
+                                data-media-url="${escapeAttribute(mediaURL)}"
+                                data-media-type="video"
+                            >
+
+                                <span class="media-label">
+                                    ▶ VIDEO
+                                </span>
+
+                                <video
+                                    preload="metadata"
+                                    muted
+                                    playsinline
+                                >
+
+                                    <source
+                                        src="${escapeAttribute(mediaURL)}"
+                                    >
+
+                                </video>
+
+                            </div>
+                        `;
+
+                    } else {
+
+                        mediaHTML = `
+
+                            <div
+                                class="media"
+                                data-media-url="${escapeAttribute(mediaURL)}"
+                                data-media-type="image"
+                            >
+
+                                <span class="media-label">
+                                    📸 PHOTO
+                                </span>
+
+                                <img
+                                    src="${escapeAttribute(mediaURL)}"
+                                    alt="Booth contribution"
+                                    loading="lazy"
+                                >
+
+                            </div>
+                        `;
+
+                    }
+
+
+                    card.innerHTML = `
+
+                        ${mediaHTML}
+
+                        <div class="card-content">
+
+                            <h3>
+                                ${escapeHTML(
+                                    item.name ||
+                                    "Unknown Contributor"
+                                )}
+                            </h3>
+
+                            <div class="card-description">
+
+                                ${escapeHTML(
+                                    item.description ||
+                                    "No description provided."
+                                )}
+
+                            </div>
+
+                            <div class="card-info">
+
+                                👥
+                                <strong>
+                                    ${escapeHTML(
+                                        item.group_name ||
+                                        "No group"
+                                    )}
+                                </strong>
+
+                            </div>
+
+                            <div class="card-actions">
+
+                                <button
+                                    class="card-action edit-button"
+                                    type="button"
+                                >
+                                    ✏ EDIT
+                                </button>
+
+                                <button
+                                    class="card-action delete-button"
+                                    type="button"
+                                >
+                                    🗑 DELETE
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    const media =
+                        card.querySelector(
+                            ".media"
+                        );
+
+
+                    media.addEventListener(
+                        "click",
+                        function() {
+
+                            openMedia(
+                                media.dataset.mediaUrl,
+                                media.dataset.mediaType
+                            );
+
+                        }
+                    );
+
+
+                    const editButton =
+                        card.querySelector(
+                            ".edit-button"
+                        );
+
+
+                    const deleteButton =
+                        card.querySelector(
+                            ".delete-button"
+                        );
+
+
+                    editButton.addEventListener(
+                        "click",
+                        function(event) {
+
+                            event.stopPropagation();
+
+                            editContribution(
+                                item.id
+                            );
+
+                        }
+                    );
+
+
+                    deleteButton.addEventListener(
+                        "click",
+                        function(event) {
+
+                            event.stopPropagation();
+
+                            deleteContribution(
+                                item.id
+                            );
+
+                        }
+                    );
+
+
+                    container.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* ==========================================
+           FILE SELECTION
+        ========================================== */
+
+        document.getElementById(
+            "mediaFile"
+        ).addEventListener(
+            "change",
+            async function() {
+
+                const file =
+                    this.files[0];
+
+
+                const status =
+                    document.getElementById(
+                        "videoStatus"
+                    );
+
+
+                const button =
+                    document.getElementById(
+                        "submitButton"
+                    );
+
+
+                if (!file) {
+
+                    status.textContent = "";
+
+                    button.disabled = false;
+
+                    return;
+                }
+
+
+                if (
+                    file.size >
+                    MAX_FILE_SIZE
+                ) {
+
+                    status.textContent =
+                        "❌ File is larger than 2 MB.";
+
+                    button.disabled = true;
+
+                    return;
+                }
+
 
                 if (
                     file.type.startsWith(
@@ -1027,731 +1449,983 @@ document
                     )
                 ) {
 
-                    mediaType =
-                        "video";
+                    status.textContent =
+                        "Checking video duration...";
 
-                    const duration =
-                        await getVideoDuration(
+                    button.disabled = true;
+
+
+                    try {
+
+                        const duration =
+                            await getVideoDuration(
+                                file
+                            );
+
+
+                        if (
+                            duration >
+                            MAX_VIDEO_SECONDS
+                        ) {
+
+                            status.textContent =
+                                "❌ Video must be 5 minutes or shorter.";
+
+                            button.disabled = true;
+
+                            return;
+                        }
+
+
+                        status.textContent =
+                            "✅ Video accepted — maximum 5 minutes.";
+
+                        button.disabled = false;
+
+
+                    } catch (error) {
+
+                        status.textContent =
+                            "❌ Could not read video duration.";
+
+                        button.disabled = true;
+
+                    }
+
+                } else {
+
+                    status.textContent =
+                        "✅ Photo selected.";
+
+                    button.disabled = false;
+
+                }
+
+            }
+        );
+
+
+        /* ==========================================
+           VIDEO DURATION
+        ========================================== */
+
+        function getVideoDuration(file) {
+
+            return new Promise(
+                (resolve, reject) => {
+
+                    const video =
+                        document.createElement(
+                            "video"
+                        );
+
+
+                    const objectURL =
+                        URL.createObjectURL(
                             file
                         );
 
+
+                    video.preload =
+                        "metadata";
+
+
+                    video.onloadedmetadata =
+                        function() {
+
+                            URL.revokeObjectURL(
+                                objectURL
+                            );
+
+                            resolve(
+                                video.duration
+                            );
+
+                        };
+
+
+                    video.onerror =
+                        function() {
+
+                            URL.revokeObjectURL(
+                                objectURL
+                            );
+
+                            reject(
+                                new Error(
+                                    "Could not read video."
+                                )
+                            );
+
+                        };
+
+
+                    video.src =
+                        objectURL;
+
+                }
+            );
+
+        }
+
+
+        /* ==========================================
+           SUBMIT CONTRIBUTION
+        ========================================== */
+
+        document.getElementById(
+            "contributionForm"
+        ).addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "name"
+                    ).value.trim();
+
+
+                const groupName =
+                    document.getElementById(
+                        "groupName"
+                    ).value.trim();
+
+
+                const description =
+                    document.getElementById(
+                        "description"
+                    ).value.trim();
+
+
+                const file =
+                    document.getElementById(
+                        "mediaFile"
+                    ).files[0];
+
+
+                const button =
+                    document.getElementById(
+                        "submitButton"
+                    );
+
+
+                if (
+                    !name ||
+                    !groupName ||
+                    !description ||
+                    !file
+                ) {
+
+                    showToast(
+                        "Please complete all fields.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    file.size >
+                    MAX_FILE_SIZE
+                ) {
+
+                    showToast(
+                        "The selected file is larger than 2 MB.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                button.disabled = true;
+
+                button.textContent =
+                    "UPLOADING...";
+
+
+                updateProgress(
+                    10,
+                    "Preparing upload..."
+                );
+
+
+                try {
+
+                    let mediaType =
+                        "image";
+
+
                     if (
-                        duration >
-                        MAX_VIDEO_SECONDS
+                        file.type.startsWith(
+                            "video/"
+                        )
+                    ) {
+
+                        mediaType =
+                            "video";
+
+
+                        const duration =
+                            await getVideoDuration(
+                                file
+                            );
+
+
+                        if (
+                            duration >
+                            MAX_VIDEO_SECONDS
+                        ) {
+
+                            throw new Error(
+                                "Videos must be 5 minutes or shorter."
+                            );
+
+                        }
+
+                    }
+
+
+                    updateProgress(
+                        25,
+                        "Preparing file..."
+                    );
+
+
+                    const extension =
+                        file.name
+                            .split(".")
+                            .pop()
+                            .toLowerCase();
+
+
+                    const uniqueName =
+                        `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+
+                    updateProgress(
+                        40,
+                        "Uploading photo/video..."
+                    );
+
+
+                    const uploadResult =
+                        await supabaseClient
+                            .storage
+                            .from(BUCKET_NAME)
+                            .upload(
+                                uniqueName,
+                                file,
+                                {
+                                    cacheControl:
+                                        "3600",
+
+                                    upsert:
+                                        false,
+
+                                    contentType:
+                                        file.type
+                                }
+                            );
+
+
+                    if (
+                        uploadResult.error
                     ) {
 
                         throw new Error(
-                            "Videos must be 5 minutes or shorter."
+                            "Storage upload failed: " +
+                            uploadResult.error.message
                         );
+
                     }
-                }
 
-                updateProgress(
-                    25,
-                    "Preparing file..."
-                );
 
-                const extension =
-                    file.name
-                        .split(".")
-                        .pop()
-                        .toLowerCase();
-
-                const uniqueName =
-                    `${Date.now()}-${crypto.randomUUID()}.${extension}`;
-
-                console.log(
-                    "Uploading:",
-                    uniqueName
-                );
-
-                updateProgress(
-                    40,
-                    "Uploading photo/video..."
-                );
-
-                /*
-                   Upload to booth-photos.
-                */
-
-                const uploadResult =
-                    await supabaseClient
-                        .storage
-                        .from(BUCKET_NAME)
-                        .upload(
-                            uniqueName,
-                            file,
-                            {
-                                cacheControl:
-                                    "3600",
-
-                                upsert:
-                                    false,
-
-                                contentType:
-                                    file.type
-                            }
-                        );
-
-                if (
-                    uploadResult.error
-                ) {
-
-                    throw new Error(
-                        "Storage upload failed: " +
-                        uploadResult.error.message
+                    updateProgress(
+                        65,
+                        "Creating contribution..."
                     );
-                }
 
-                updateProgress(
-                    65,
-                    "Creating contribution..."
-                );
 
-                /*
-                   Get public URL.
-                */
+                    const publicResult =
+                        supabaseClient
+                            .storage
+                            .from(BUCKET_NAME)
+                            .getPublicUrl(
+                                uniqueName
+                            );
 
-                const publicResult =
-                    supabaseClient
-                        .storage
-                        .from(BUCKET_NAME)
-                        .getPublicUrl(
-                            uniqueName
-                        );
 
-                const mediaURL =
-                    publicResult
-                        .data
-                        .publicUrl;
+                    const mediaURL =
+                        publicResult
+                            .data
+                            .publicUrl;
 
-                /*
-                   Save record.
 
-                   IMPORTANT:
-                   We only insert columns that
-                   the booth table needs.
-                */
+                    const insertResult =
+                        await supabaseClient
+                            .from(TABLE_NAME)
+                            .insert({
+                                name:
+                                    name,
 
-                const insertResult =
-                    await supabaseClient
-                        .from(TABLE_NAME)
-                        .insert({
+                                group_name:
+                                    groupName,
 
-                            name:
-                                name,
+                                description:
+                                    description,
 
-                            group_name:
-                                groupName,
+                                media_url:
+                                    mediaURL,
 
-                            description:
-                                description,
-
-                            media_url:
-                                mediaURL,
-
-                            media_type:
-                                mediaType
-
-                        })
-                        .select()
-                        .single();
-
-                if (
-                    insertResult.error
-                ) {
-
-                    /*
-                       If database insertion fails,
-                       remove the uploaded file.
-                    */
-
-                    await supabaseClient
-                        .storage
-                        .from(BUCKET_NAME)
-                        .remove([
-                            uniqueName
-                        ]);
-
-                    throw new Error(
-                        "Database insert failed: " +
-                        insertResult.error.message
-                    );
-                }
-
-                updateProgress(
-                    90,
-                    "Refreshing contribution wall..."
-                );
-
-                await loadContributions();
-
-                updateProgress(
-                    100,
-                    "Contribution added!"
-                );
-
-                showToast(
-                    "🎉 Your contribution has been added!",
-                    "success"
-                );
-
-                this.reset();
-
-                document
-                    .getElementById(
-                        "videoStatus"
-                    )
-                    .textContent =
-                        "";
-
-                button.textContent =
-                    "SUBMIT CONTRIBUTION";
-
-                setTimeout(
-                    function() {
-
-                        document
-                            .getElementById(
-                                "gallery"
-                            )
-                            .scrollIntoView({
-                                behavior:
-                                    "smooth"
+                                media_type:
+                                    mediaType
                             });
 
-                    },
-                    500
-                );
 
-            } catch(error) {
+                    if (
+                        insertResult.error
+                    ) {
 
-                console.error(
-                    "Submission error:",
-                    error
-                );
+                        await supabaseClient
+                            .storage
+                            .from(BUCKET_NAME)
+                            .remove([
+                                uniqueName
+                            ]);
 
-                showToast(
-                    error.message ||
-                    "The contribution could not be submitted.",
-                    "error"
-                );
 
-                button.textContent =
-                    "SUBMIT CONTRIBUTION";
+                        throw new Error(
+                            "Database insert failed: " +
+                            insertResult.error.message
+                        );
 
-            } finally {
+                    }
 
-                button.disabled =
-                    false;
 
-                setTimeout(
-                    function() {
+                    updateProgress(
+                        90,
+                        "Refreshing gallery..."
+                    );
 
-                        document
-                            .getElementById(
+
+                    await loadContributions();
+
+
+                    updateProgress(
+                        100,
+                        "Contribution added!"
+                    );
+
+
+                    showToast(
+                        "🎉 Contribution added successfully!",
+                        "success"
+                    );
+
+
+                    document
+                        .getElementById(
+                            "contributionForm"
+                        )
+                        .reset();
+
+
+                    document.getElementById(
+                        "videoStatus"
+                    ).textContent = "";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Submission error:",
+                        error
+                    );
+
+
+                    showToast(
+                        error.message ||
+                        "Could not submit contribution.",
+                        "error"
+                    );
+
+                } finally {
+
+                    button.disabled = false;
+
+                    button.textContent =
+                        "SUBMIT CONTRIBUTION";
+
+
+                    setTimeout(
+                        function() {
+
+                            document.getElementById(
                                 "progressContainer"
-                            )
-                            .style.display =
+                            ).style.display =
                                 "none";
 
-                    },
-                    1000
-                );
+                        },
+                        1000
+                    );
+
+                }
+
             }
-        }
-    );
-
-
-/* =====================================================
-   EDIT
-===================================================== */
-
-async function editContribution(id) {
-
-    if (!verifyAdmin()) {
-        return;
-    }
-
-    const item =
-        contributions.find(
-            contribution =>
-                String(
-                    contribution.id
-                ) ===
-                String(id)
         );
 
-    if (!item) {
 
-        showToast(
-            "Contribution not found.",
-            "error"
-        );
+        /* ==========================================
+           EDIT
+        ========================================== */
 
-        return;
-    }
+        async function editContribution(id) {
 
-    const newName =
-        prompt(
-            "Contributor name:",
-            item.name || ""
-        );
+            if (!verifyAdmin()) {
+                return;
+            }
 
-    if (newName === null) {
-        return;
-    }
 
-    const newGroup =
-        prompt(
-            "Section / Group:",
-            item.group_name || ""
-        );
-
-    if (newGroup === null) {
-        return;
-    }
-
-    const newDescription =
-        prompt(
-            "Contribution description:",
-            item.description || ""
-        );
-
-    if (newDescription === null) {
-        return;
-    }
-
-    try {
-
-        const result =
-            await supabaseClient
-                .from(TABLE_NAME)
-                .update({
-
-                    name:
-                        newName.trim(),
-
-                    group_name:
-                        newGroup.trim(),
-
-                    description:
-                        newDescription.trim()
-
-                })
-                .eq(
-                    "id",
-                    id
+            const item =
+                contributions.find(
+                    contribution =>
+                        String(
+                            contribution.id
+                        ) ===
+                        String(id)
                 );
 
-        if (result.error) {
-            throw result.error;
-        }
 
-        await loadContributions();
+            if (!item) {
 
-        showToast(
-            "Contribution updated successfully!",
-            "success"
-        );
-
-    } catch(error) {
-
-        console.error(error);
-
-        showToast(
-            "Could not update contribution: " +
-            error.message,
-            "error"
-        );
-    }
-}
-
-
-/* =====================================================
-   DELETE
-===================================================== */
-
-async function deleteContribution(id) {
-
-    if (!verifyAdmin()) {
-        return;
-    }
-
-    const item =
-        contributions.find(
-            contribution =>
-                String(
-                    contribution.id
-                ) ===
-                String(id)
-        );
-
-    if (!item) {
-        return;
-    }
-
-    const confirmed =
-        confirm(
-            `Delete ${item.name}'s contribution?\n\nThis cannot be undone.`
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-    try {
-
-        const deleteResult =
-            await supabaseClient
-                .from(TABLE_NAME)
-                .delete()
-                .eq(
-                    "id",
-                    id
-                );
-
-        if (
-            deleteResult.error
-        ) {
-
-            throw deleteResult.error;
-        }
-
-        await loadContributions();
-
-        showToast(
-            "Contribution deleted.",
-            "success"
-        );
-
-    } catch(error) {
-
-        console.error(error);
-
-        showToast(
-            "Could not delete contribution: " +
-            error.message,
-            "error"
-        );
-    }
-}
-
-
-/* =====================================================
-   ADMIN PIN
-===================================================== */
-
-function verifyAdmin() {
-
-    const entered =
-        prompt(
-            "Enter administrator PIN:"
-        );
-
-    if (
-        entered !==
-        ADMIN_PIN
-    ) {
-
-        showToast(
-            "Incorrect administrator PIN.",
-            "error"
-        );
-
-        return false;
-    }
-
-    return true;
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-document
-    .getElementById("searchInput")
-    .addEventListener(
-        "input",
-        function() {
-
-            const query =
-                this.value
-                    .trim()
-                    .toLowerCase();
-
-            displayContributors(
-                query
-            );
-
-            if (!query) {
-
-                displayGallery(
-                    contributions
+                showToast(
+                    "Contribution not found.",
+                    "error"
                 );
 
                 return;
             }
 
-            const filtered =
-                contributions.filter(
-                    item =>
-                        (
-                            item.name ||
-                            ""
-                        )
-                        .toLowerCase()
-                        .includes(
-                            query
-                        )
+
+            const newName =
+                prompt(
+                    "Contributor name:",
+                    item.name || ""
                 );
 
-            displayGallery(
-                filtered
-            );
+
+            if (newName === null) {
+                return;
+            }
+
+
+            const newGroup =
+                prompt(
+                    "Section / Group:",
+                    item.group_name || ""
+                );
+
+
+            if (newGroup === null) {
+                return;
+            }
+
+
+            const newDescription =
+                prompt(
+                    "Contribution description:",
+                    item.description || ""
+                );
+
+
+            if (newDescription === null) {
+                return;
+            }
+
+
+            try {
+
+                const result =
+                    await supabaseClient
+                        .from(TABLE_NAME)
+                        .update({
+                            name:
+                                newName.trim(),
+
+                            group_name:
+                                newGroup.trim(),
+
+                            description:
+                                newDescription.trim()
+                        })
+                        .eq(
+                            "id",
+                            id
+                        );
+
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+
+                await loadContributions();
+
+
+                showToast(
+                    "Contribution updated successfully!",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                showToast(
+                    "Could not update contribution: " +
+                    error.message,
+                    "error"
+                );
+
+            }
+
         }
-    );
 
 
-/* =====================================================
-   MEDIA MODAL
-===================================================== */
+        /* ==========================================
+           DELETE
+        ========================================== */
 
-function openMedia(url, type) {
+        async function deleteContribution(id) {
 
-    const modal =
-        document.getElementById(
-            "mediaModal"
-        );
-
-    const container =
-        document.getElementById(
-            "modalMedia"
-        );
-
-    if (type === "video") {
-
-        container.innerHTML = `
-
-            <video
-                controls
-                autoplay
-                playsinline
-            >
-
-                <source
-                    src="${escapeAttribute(url)}"
-                >
-
-                Your browser does not
-                support video playback.
-
-            </video>
-        `;
-
-    } else {
-
-        container.innerHTML = `
-
-            <img
-                src="${escapeAttribute(url)}"
-                alt="Booth contribution"
-            >
-        `;
-    }
-
-    modal.classList.add(
-        "active"
-    );
-}
+            if (!verifyAdmin()) {
+                return;
+            }
 
 
-function closeMediaModal() {
-
-    const modal =
-        document.getElementById(
-            "mediaModal"
-        );
-
-    const container =
-        document.getElementById(
-            "modalMedia"
-        );
-
-    container.innerHTML =
-        "";
-
-    modal.classList.remove(
-        "active"
-    );
-}
+            const item =
+                contributions.find(
+                    contribution =>
+                        String(
+                            contribution.id
+                        ) ===
+                        String(id)
+                );
 
 
-document
-    .getElementById("mediaModal")
-    .addEventListener(
-        "click",
-        function(event) {
+            if (!item) {
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    `Delete ${item.name}'s contribution?\n\nThis cannot be undone.`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const result =
+                    await supabaseClient
+                        .from(TABLE_NAME)
+                        .delete()
+                        .eq(
+                            "id",
+                            id
+                        );
+
+
+                if (result.error) {
+                    throw result.error;
+                }
+
+
+                await loadContributions();
+
+
+                showToast(
+                    "Contribution deleted.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                showToast(
+                    "Could not delete contribution: " +
+                    error.message,
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* ==========================================
+           ADMIN PIN
+        ========================================== */
+
+        function verifyAdmin() {
+
+            const entered =
+                prompt(
+                    "Enter administrator PIN:"
+                );
+
 
             if (
-                event.target ===
-                this
+                entered !==
+                ADMIN_PIN
             ) {
 
-                closeMediaModal();
-            }
-        }
-    );
-
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
-            closeMediaModal();
-        }
-    }
-);
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-function updateProgress(
-    percentage,
-    message
-) {
-
-    const container =
-        document.getElementById(
-            "progressContainer"
-        );
-
-    const fill =
-        document.getElementById(
-            "progressFill"
-        );
-
-    const text =
-        document.getElementById(
-            "progressText"
-        );
-
-    container.style.display =
-        "block";
-
-    fill.style.width =
-        percentage + "%";
-
-    text.textContent =
-        message;
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer =
-    null;
-
-
-function showToast(
-    message,
-    type = "success"
-) {
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-    toast.textContent =
-        message;
-
-    toast.className =
-        `toast ${type}`;
-
-    setTimeout(
-        function() {
-
-            toast.classList.add(
-                "show"
-            );
-
-        },
-        10
-    );
-
-    if (toastTimer) {
-
-        clearTimeout(
-            toastTimer
-        );
-    }
-
-    toastTimer =
-        setTimeout(
-            function() {
-
-                toast.classList.remove(
-                    "show"
+                showToast(
+                    "Incorrect administrator PIN.",
+                    "error"
                 );
 
-            },
-            4500
+                return false;
+            }
+
+
+            return true;
+
+        }
+
+
+        /* ==========================================
+           SEARCH
+        ========================================== */
+
+        document.getElementById(
+            "searchInput"
+        ).addEventListener(
+            "input",
+            function() {
+
+                const query =
+                    this.value
+                        .trim()
+                        .toLowerCase();
+
+
+                displayContributors(
+                    query
+                );
+
+
+                if (!query) {
+
+                    displayGallery(
+                        contributions
+                    );
+
+                    return;
+
+                }
+
+
+                const filtered =
+                    contributions.filter(
+                        item =>
+                            (
+                                item.name ||
+                                ""
+                            )
+                            .toLowerCase()
+                            .includes(
+                                query
+                            )
+                    );
+
+
+                displayGallery(
+                    filtered
+                );
+
+            }
         );
-}
 
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+        /* ==========================================
+           MEDIA MODAL
+        ========================================== */
 
-function escapeHTML(value) {
+        function openMedia(
+            url,
+            type
+        ) {
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
-    );
-}
+            const modal =
+                document.getElementById(
+                    "mediaModal"
+                );
 
 
-/* =====================================================
-   ESCAPE ATTRIBUTE
-===================================================== */
+            const container =
+                document.getElementById(
+                    "modalMedia"
+                );
 
-function escapeAttribute(value) {
 
-    return escapeHTML(
-        value
-    );
-}
+            if (type === "video") {
 
-</script>
+                container.innerHTML = `
+
+                    <video
+                        controls
+                        autoplay
+                        playsinline
+                    >
+
+                        <source
+                            src="${escapeAttribute(url)}"
+                        >
+
+                    </video>
+
+                `;
+
+            } else {
+
+                container.innerHTML = `
+
+                    <img
+                        src="${escapeAttribute(url)}"
+                        alt="Booth contribution"
+                    >
+
+                `;
+
+            }
+
+
+            modal.classList.add(
+                "active"
+            );
+
+        }
+
+
+        function closeMediaModal() {
+
+            const modal =
+                document.getElementById(
+                    "mediaModal"
+                );
+
+
+            const container =
+                document.getElementById(
+                    "modalMedia"
+                );
+
+
+            container.innerHTML =
+                "";
+
+
+            modal.classList.remove(
+                "active"
+            );
+
+        }
+
+
+        document.getElementById(
+            "mediaModal"
+        ).addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeMediaModal();
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    closeMediaModal();
+
+                }
+
+            }
+        );
+
+
+        /* ==========================================
+           PROGRESS
+        ========================================== */
+
+        function updateProgress(
+            percentage,
+            message
+        ) {
+
+            const container =
+                document.getElementById(
+                    "progressContainer"
+                );
+
+
+            const fill =
+                document.getElementById(
+                    "progressFill"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "progressText"
+                );
+
+
+            container.style.display =
+                "block";
+
+
+            fill.style.width =
+                percentage + "%";
+
+
+            text.textContent =
+                message;
+
+        }
+
+
+        /* ==========================================
+           TOAST
+        ========================================== */
+
+        let toastTimer = null;
+
+
+        function showToast(
+            message,
+            type = "success"
+        ) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+
+            toast.textContent =
+                message;
+
+
+            toast.className =
+                `toast ${type}`;
+
+
+            setTimeout(
+                function() {
+
+                    toast.classList.add(
+                        "show"
+                    );
+
+                },
+                10
+            );
+
+
+            if (toastTimer) {
+
+                clearTimeout(
+                    toastTimer
+                );
+
+            }
+
+
+            toastTimer =
+                setTimeout(
+                    function() {
+
+                        toast.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    4500
+                );
+
+        }
+
+
+        /* ==========================================
+           ESCAPE HTML
+        ========================================== */
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+        function escapeAttribute(value) {
+
+            return escapeHTML(
+                value
+            );
+
+        }
+
+    </script>
+
+</body>
+
+</html>
