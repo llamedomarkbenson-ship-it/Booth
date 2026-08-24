@@ -188,7 +188,6 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 3px 12px rgba(0,0,0,0.06);
-            transition: transform 0.2s;
         }
 
         .contributor:hover {
@@ -257,15 +256,27 @@
             text-align: left;
         }
 
+        /*
+        =====================================================
+        DESCRIPTION FIX
+
+        The description is now a normal left-aligned block.
+        This prevents the first line from appearing centered
+        or wrapping unexpectedly.
+        =====================================================
+        */
+
         .card-description {
             color: #555;
             line-height: 1.5;
-            white-space: pre-wrap;
+            white-space: normal;
             text-align: left;
-            word-break: normal;
-            overflow-wrap: break-word;
+            display: block;
             width: 100%;
             margin: 0;
+            padding: 0;
+            word-break: normal;
+            overflow-wrap: break-word;
         }
 
         .card-info {
@@ -418,7 +429,6 @@
     </style>
 </head>
 
-
 <body>
 
     <header>
@@ -435,9 +445,7 @@
 
     </header>
 
-
     <main class="container">
-
 
         <!-- CONTRIBUTION FORM -->
 
@@ -464,7 +472,6 @@
 
                     </div>
 
-
                     <div class="form-group">
 
                         <label for="groupName">
@@ -480,7 +487,6 @@
 
                     </div>
 
-
                     <div class="form-group">
 
                         <label for="description">
@@ -494,7 +500,6 @@
                         ></textarea>
 
                     </div>
-
 
                     <div class="form-group">
 
@@ -513,7 +518,6 @@
 
                     </div>
 
-
                     <button
                         type="submit"
                         id="submitButton"
@@ -521,7 +525,6 @@
                     >
                         SUBMIT CONTRIBUTION
                     </button>
-
 
                     <div id="progressContainer">
 
@@ -540,7 +543,6 @@
             </div>
 
         </section>
-
 
         <!-- STATISTICS -->
 
@@ -563,7 +565,6 @@
 
                 </div>
 
-
                 <div class="stat">
 
                     <div
@@ -578,7 +579,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="stat">
 
@@ -598,7 +598,6 @@
             </div>
 
         </section>
-
 
         <!-- CONTRIBUTORS -->
 
@@ -633,7 +632,6 @@
 
         </section>
 
-
         <!-- GALLERY -->
 
         <section
@@ -660,9 +658,7 @@
 
         </section>
 
-
     </main>
-
 
     <!-- MEDIA MODAL -->
 
@@ -672,7 +668,6 @@
 
     </div>
 
-
     <!-- TOAST -->
 
     <div
@@ -680,12 +675,11 @@
         class="toast"
     ></div>
 
-
     <script>
 
-        /* ==========================================
+        /* =====================================================
            SUPABASE CONFIGURATION
-        ========================================== */
+        ===================================================== */
 
         const SUPABASE_URL =
             "https://eqebdzbduixoyrqpsbui.supabase.co";
@@ -694,9 +688,9 @@
             "sb_publishable_tXcX-ng7EVHVaF1jaHXPlA_lh7Ip98L";
 
 
-        /* ==========================================
+        /* =====================================================
            BOOTH CONFIGURATION
-        ========================================== */
+        ===================================================== */
 
         const TABLE_NAME =
             "booth_contributions";
@@ -718,19 +712,11 @@
         let contributions = [];
 
 
-        /* ==========================================
+        /* =====================================================
            SUPABASE INITIALIZATION
-        ========================================== */
+        ===================================================== */
 
-        if (!window.supabase) {
-
-            showDatabaseError(
-                new Error(
-                    "Supabase library did not load."
-                )
-            );
-
-        } else {
+        if (window.supabase) {
 
             try {
 
@@ -751,16 +737,20 @@
                     error
                 );
 
-                showDatabaseError(error);
-
             }
+
+        } else {
+
+            console.error(
+                "Supabase library did not load."
+            );
 
         }
 
 
-        /* ==========================================
+        /* =====================================================
            INITIAL LOAD
-        ========================================== */
+        ===================================================== */
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -768,15 +758,21 @@
 
                 if (supabaseClient) {
                     loadContributions();
+                } else {
+                    showDatabaseError(
+                        new Error(
+                            "Supabase library did not load."
+                        )
+                    );
                 }
 
             }
         );
 
 
-        /* ==========================================
+        /* =====================================================
            LOAD CONTRIBUTIONS
-        ========================================== */
+        ===================================================== */
 
         async function loadContributions() {
 
@@ -828,9 +824,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            LOADING
-        ========================================== */
+        ===================================================== */
 
         function showLoading() {
 
@@ -856,6 +852,7 @@
                         Loading contributors...
 
                     </div>
+
                 `;
 
             }
@@ -872,6 +869,7 @@
                         Loading contributions...
 
                     </div>
+
                 `;
 
             }
@@ -879,9 +877,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            DATABASE ERROR
-        ========================================== */
+        ===================================================== */
 
         function showDatabaseError(error) {
 
@@ -922,6 +920,7 @@
                         </code>
 
                     </div>
+
                 `;
 
             }
@@ -938,7 +937,7 @@
                         </h3>
 
                         <p>
-                            Check the Booth Supabase
+                            Check your Booth Supabase
                             configuration.
                         </p>
 
@@ -947,6 +946,7 @@
                         </code>
 
                     </div>
+
                 `;
 
             }
@@ -954,9 +954,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            STATISTICS
-        ========================================== */
+        ===================================================== */
 
         function updateStatistics() {
 
@@ -1001,9 +1001,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            CONTRIBUTORS
-        ========================================== */
+        ===================================================== */
 
         function displayContributors(
             search = ""
@@ -1068,6 +1068,7 @@
                         No contributors yet.
 
                     </div>
+
                 `;
 
                 return;
@@ -1094,10 +1095,7 @@
                     element.innerHTML = `
 
                         <div class="contributor-name">
-
-                            👤
-                            ${escapeHTML(name)}
-
+                            👤 ${escapeHTML(name)}
                         </div>
 
                         <div class="contributor-count">
@@ -1157,40 +1155,9 @@
         }
 
 
-        /* ==========================================
-           NORMALIZE DESCRIPTION
-        ========================================== */
-
-        function cleanDescription(value) {
-
-            if (!value) {
-                return "No description provided.";
-            }
-
-
-            return String(value)
-                .split("\n")
-                .map(
-                    line =>
-                        line
-                            .replace(
-                                /\s+/g,
-                                " "
-                            )
-                            .trim()
-                )
-                .filter(
-                    line =>
-                        line.length > 0
-                )
-                .join("\n");
-
-        }
-
-
-        /* ==========================================
+        /* =====================================================
            GALLERY
-        ========================================== */
+        ===================================================== */
 
         function displayGallery(items) {
 
@@ -1220,6 +1187,7 @@
                         </p>
 
                     </div>
+
                 `;
 
                 return;
@@ -1313,10 +1281,23 @@
                     }
 
 
-                    const cleanedDescription =
-                        cleanDescription(
-                            item.description
-                        );
+                    /*
+                    IMPORTANT:
+                    The description is deliberately placed
+                    in a simple block with left alignment.
+                    */
+
+
+                    const description =
+                        (
+                            item.description ||
+                            "No description provided."
+                        )
+                        .replace(
+                            /^[ \t]+/gm,
+                            ""
+                        )
+                        .trim();
 
 
                     card.innerHTML = `
@@ -1332,18 +1313,11 @@
                                 )}
                             </h3>
 
-                            <div class="card-description">
-
-                                ${escapeHTML(
-                                    cleanedDescription
-                                )}
-
-                            </div>
+                            <div class="card-description">${escapeHTML(description)}</div>
 
                             <div class="card-info">
 
                                 👥
-
                                 <strong>
                                     ${escapeHTML(
                                         item.group_name ||
@@ -1445,9 +1419,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            FILE SELECTION
-        ========================================== */
+        ===================================================== */
 
         document.getElementById(
             "mediaFile"
@@ -1473,11 +1447,9 @@
 
                 if (!file) {
 
-                    status.textContent =
-                        "";
+                    status.textContent = "";
 
-                    button.disabled =
-                        false;
+                    button.disabled = false;
 
                     return;
 
@@ -1491,6 +1463,9 @@
 
                     status.textContent =
                         "❌ File is larger than 2 MB.";
+
+                    status.style.color =
+                        "#a00";
 
                     button.disabled =
                         true;
@@ -1529,6 +1504,9 @@
                             status.textContent =
                                 "❌ Video must be 5 minutes or shorter.";
 
+                            status.style.color =
+                                "#a00";
+
                             button.disabled =
                                 true;
 
@@ -1540,6 +1518,9 @@
                         status.textContent =
                             "✅ Video accepted — maximum 5 minutes.";
 
+                        status.style.color =
+                            "#080";
+
                         button.disabled =
                             false;
 
@@ -1548,6 +1529,9 @@
 
                         status.textContent =
                             "❌ Could not read video duration.";
+
+                        status.style.color =
+                            "#a00";
 
                         button.disabled =
                             true;
@@ -1559,6 +1543,9 @@
                     status.textContent =
                         "✅ Photo selected.";
 
+                    status.style.color =
+                        "#080";
+
                     button.disabled =
                         false;
 
@@ -1568,9 +1555,9 @@
         );
 
 
-        /* ==========================================
+        /* =====================================================
            VIDEO DURATION
-        ========================================== */
+        ===================================================== */
 
         function getVideoDuration(file) {
 
@@ -1634,9 +1621,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            SUBMIT CONTRIBUTION
-        ========================================== */
+        ===================================================== */
 
         document.getElementById(
             "contributionForm"
@@ -1723,7 +1710,6 @@
 
                 button.disabled =
                     true;
-
 
                 button.textContent =
                     "UPLOADING...";
@@ -1911,15 +1897,17 @@
                     );
 
 
-                    document.getElementById(
-                        "contributionForm"
-                    ).reset();
+                    document
+                        .getElementById(
+                            "contributionForm"
+                        )
+                        .reset();
 
 
                     document.getElementById(
                         "videoStatus"
-                    ).textContent =
-                        "";
+                    ).textContent = "";
+
 
                 } catch (error) {
 
@@ -1939,7 +1927,6 @@
 
                     button.disabled =
                         false;
-
 
                     button.textContent =
                         "SUBMIT CONTRIBUTION";
@@ -1963,9 +1950,9 @@
         );
 
 
-        /* ==========================================
+        /* =====================================================
            EDIT
-        ========================================== */
+        ===================================================== */
 
         async function editContribution(id) {
 
@@ -2082,9 +2069,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            DELETE
-        ========================================== */
+        ===================================================== */
 
         async function deleteContribution(id) {
 
@@ -2158,9 +2145,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            ADMIN PIN
-        ========================================== */
+        ===================================================== */
 
         function verifyAdmin() {
 
@@ -2190,9 +2177,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            SEARCH
-        ========================================== */
+        ===================================================== */
 
         document.getElementById(
             "searchInput"
@@ -2244,9 +2231,9 @@
         );
 
 
-        /* ==========================================
+        /* =====================================================
            MEDIA MODAL
-        ========================================== */
+        ===================================================== */
 
         function openMedia(
             url,
@@ -2278,6 +2265,9 @@
                         <source
                             src="${escapeAttribute(url)}"
                         >
+
+                        Your browser does not
+                        support video playback.
 
                     </video>
 
@@ -2365,9 +2355,9 @@
         );
 
 
-        /* ==========================================
+        /* =====================================================
            PROGRESS
-        ========================================== */
+        ===================================================== */
 
         function updateProgress(
             percentage,
@@ -2406,9 +2396,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            TOAST
-        ========================================== */
+        ===================================================== */
 
         let toastTimer =
             null;
@@ -2469,9 +2459,9 @@
         }
 
 
-        /* ==========================================
+        /* =====================================================
            ESCAPE HTML
-        ========================================== */
+        ===================================================== */
 
         function escapeHTML(value) {
 
