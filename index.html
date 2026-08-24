@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,6 +188,7 @@
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s;
         }
 
         .contributor:hover {
@@ -247,21 +249,29 @@
 
         .card-content {
             padding: 20px;
+            text-align: left;
         }
 
         .card-content h3 {
             margin: 0 0 10px;
+            text-align: left;
         }
 
         .card-description {
             color: #555;
             line-height: 1.5;
             white-space: pre-wrap;
+            text-align: left;
+            word-break: normal;
+            overflow-wrap: break-word;
+            width: 100%;
+            margin: 0;
         }
 
         .card-info {
             margin-top: 15px;
             font-size: 14px;
+            text-align: left;
         }
 
         .card-actions {
@@ -402,6 +412,7 @@
             .gallery {
                 grid-template-columns: 1fr;
             }
+
         }
 
     </style>
@@ -428,9 +439,7 @@
     <main class="container">
 
 
-        <!-- ==============================
-             CONTRIBUTION FORM
-        =============================== -->
+        <!-- CONTRIBUTION FORM -->
 
         <section class="section">
 
@@ -533,9 +542,7 @@
         </section>
 
 
-        <!-- ==============================
-             STATISTICS
-        =============================== -->
+        <!-- STATISTICS -->
 
         <section class="section">
 
@@ -593,9 +600,7 @@
         </section>
 
 
-        <!-- ==============================
-             CONTRIBUTORS
-        =============================== -->
+        <!-- CONTRIBUTORS -->
 
         <section class="section">
 
@@ -629,9 +634,7 @@
         </section>
 
 
-        <!-- ==============================
-             GALLERY
-        =============================== -->
+        <!-- GALLERY -->
 
         <section
             class="section"
@@ -661,9 +664,7 @@
     </main>
 
 
-    <!-- ==============================
-         MEDIA MODAL
-    =============================== -->
+    <!-- MEDIA MODAL -->
 
     <div id="mediaModal">
 
@@ -672,20 +673,13 @@
     </div>
 
 
-    <!-- ==============================
-         TOAST
-    =============================== -->
+    <!-- TOAST -->
 
     <div
         id="toast"
         class="toast"
     ></div>
 
-
-    <!-- ==========================================================
-         JAVASCRIPT
-         IMPORTANT: This is AFTER all HTML elements.
-    =========================================================== -->
 
     <script>
 
@@ -720,14 +714,13 @@
             "123456";
 
 
-        /* ==========================================
-           SUPABASE CLIENT
-        ========================================== */
-
         let supabaseClient = null;
-
         let contributions = [];
 
+
+        /* ==========================================
+           SUPABASE INITIALIZATION
+        ========================================== */
 
         if (!window.supabase) {
 
@@ -759,9 +752,26 @@
                 );
 
                 showDatabaseError(error);
+
             }
 
         }
+
+
+        /* ==========================================
+           INITIAL LOAD
+        ========================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                if (supabaseClient) {
+                    loadContributions();
+                }
+
+            }
+        );
 
 
         /* ==========================================
@@ -812,27 +822,10 @@
                 );
 
                 showDatabaseError(error);
+
             }
 
         }
-
-
-        /* ==========================================
-           INITIAL LOAD
-        ========================================== */
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function() {
-
-                if (supabaseClient) {
-
-                    loadContributions();
-
-                }
-
-            }
-        );
 
 
         /* ==========================================
@@ -841,32 +834,48 @@
 
         function showLoading() {
 
-            document.getElementById(
-                "contributorList"
-            ).innerHTML = `
+            const contributorList =
+                document.getElementById(
+                    "contributorList"
+                );
 
-                <div class="loading">
-
-                    <div class="spinner"></div>
-
-                    Loading contributors...
-
-                </div>
-            `;
+            const galleryContainer =
+                document.getElementById(
+                    "galleryContainer"
+                );
 
 
-            document.getElementById(
-                "galleryContainer"
-            ).innerHTML = `
+            if (contributorList) {
 
-                <div class="loading">
+                contributorList.innerHTML = `
 
-                    <div class="spinner"></div>
+                    <div class="loading">
 
-                    Loading contributions...
+                        <div class="spinner"></div>
 
-                </div>
-            `;
+                        Loading contributors...
+
+                    </div>
+                `;
+
+            }
+
+
+            if (galleryContainer) {
+
+                galleryContainer.innerHTML = `
+
+                    <div class="loading">
+
+                        <div class="spinner"></div>
+
+                        Loading contributions...
+
+                    </div>
+                `;
+
+            }
+
         }
 
 
@@ -914,6 +923,7 @@
 
                     </div>
                 `;
+
             }
 
 
@@ -938,6 +948,7 @@
 
                     </div>
                 `;
+
             }
 
         }
@@ -1060,6 +1071,7 @@
                 `;
 
                 return;
+
             }
 
 
@@ -1146,6 +1158,37 @@
 
 
         /* ==========================================
+           NORMALIZE DESCRIPTION
+        ========================================== */
+
+        function cleanDescription(value) {
+
+            if (!value) {
+                return "No description provided.";
+            }
+
+
+            return String(value)
+                .split("\n")
+                .map(
+                    line =>
+                        line
+                            .replace(
+                                /\s+/g,
+                                " "
+                            )
+                            .trim()
+                )
+                .filter(
+                    line =>
+                        line.length > 0
+                )
+                .join("\n");
+
+        }
+
+
+        /* ==========================================
            GALLERY
         ========================================== */
 
@@ -1180,6 +1223,7 @@
                 `;
 
                 return;
+
             }
 
 
@@ -1239,6 +1283,7 @@
                                 </video>
 
                             </div>
+
                         `;
 
                     } else {
@@ -1262,9 +1307,16 @@
                                 >
 
                             </div>
+
                         `;
 
                     }
+
+
+                    const cleanedDescription =
+                        cleanDescription(
+                            item.description
+                        );
 
 
                     card.innerHTML = `
@@ -1283,8 +1335,7 @@
                             <div class="card-description">
 
                                 ${escapeHTML(
-                                    item.description ||
-                                    "No description provided."
+                                    cleanedDescription
                                 )}
 
                             </div>
@@ -1292,6 +1343,7 @@
                             <div class="card-info">
 
                                 👥
+
                                 <strong>
                                     ${escapeHTML(
                                         item.group_name ||
@@ -1421,11 +1473,14 @@
 
                 if (!file) {
 
-                    status.textContent = "";
+                    status.textContent =
+                        "";
 
-                    button.disabled = false;
+                    button.disabled =
+                        false;
 
                     return;
+
                 }
 
 
@@ -1437,9 +1492,11 @@
                     status.textContent =
                         "❌ File is larger than 2 MB.";
 
-                    button.disabled = true;
+                    button.disabled =
+                        true;
 
                     return;
+
                 }
 
 
@@ -1452,7 +1509,8 @@
                     status.textContent =
                         "Checking video duration...";
 
-                    button.disabled = true;
+                    button.disabled =
+                        true;
 
 
                     try {
@@ -1471,16 +1529,19 @@
                             status.textContent =
                                 "❌ Video must be 5 minutes or shorter.";
 
-                            button.disabled = true;
+                            button.disabled =
+                                true;
 
                             return;
+
                         }
 
 
                         status.textContent =
                             "✅ Video accepted — maximum 5 minutes.";
 
-                        button.disabled = false;
+                        button.disabled =
+                            false;
 
 
                     } catch (error) {
@@ -1488,7 +1549,8 @@
                         status.textContent =
                             "❌ Could not read video duration.";
 
-                        button.disabled = true;
+                        button.disabled =
+                            true;
 
                     }
 
@@ -1497,7 +1559,8 @@
                     status.textContent =
                         "✅ Photo selected.";
 
-                    button.disabled = false;
+                    button.disabled =
+                        false;
 
                 }
 
@@ -1537,6 +1600,7 @@
                                 objectURL
                             );
 
+
                             resolve(
                                 video.duration
                             );
@@ -1550,6 +1614,7 @@
                             URL.revokeObjectURL(
                                 objectURL
                             );
+
 
                             reject(
                                 new Error(
@@ -1580,6 +1645,18 @@
             async function(event) {
 
                 event.preventDefault();
+
+
+                if (!supabaseClient) {
+
+                    showToast(
+                        "Supabase is not connected.",
+                        "error"
+                    );
+
+                    return;
+
+                }
 
 
                 const name =
@@ -1644,7 +1721,9 @@
                 }
 
 
-                button.disabled = true;
+                button.disabled =
+                    true;
+
 
                 button.textContent =
                     "UPLOADING...";
@@ -1772,6 +1851,7 @@
                         await supabaseClient
                             .from(TABLE_NAME)
                             .insert({
+
                                 name:
                                     name,
 
@@ -1786,6 +1866,7 @@
 
                                 media_type:
                                     mediaType
+
                             });
 
 
@@ -1830,17 +1911,15 @@
                     );
 
 
-                    document
-                        .getElementById(
-                            "contributionForm"
-                        )
-                        .reset();
+                    document.getElementById(
+                        "contributionForm"
+                    ).reset();
 
 
                     document.getElementById(
                         "videoStatus"
-                    ).textContent = "";
-
+                    ).textContent =
+                        "";
 
                 } catch (error) {
 
@@ -1858,7 +1937,9 @@
 
                 } finally {
 
-                    button.disabled = false;
+                    button.disabled =
+                        false;
+
 
                     button.textContent =
                         "SUBMIT CONTRIBUTION";
@@ -1911,6 +1992,7 @@
                 );
 
                 return;
+
             }
 
 
@@ -1956,6 +2038,7 @@
                     await supabaseClient
                         .from(TABLE_NAME)
                         .update({
+
                             name:
                                 newName.trim(),
 
@@ -1964,6 +2047,7 @@
 
                             description:
                                 newDescription.trim()
+
                         })
                         .eq(
                             "id",
@@ -2097,6 +2181,7 @@
                 );
 
                 return false;
+
             }
 
 
@@ -2325,7 +2410,8 @@
            TOAST
         ========================================== */
 
-        let toastTimer = null;
+        let toastTimer =
+            null;
 
 
         function showToast(
@@ -2429,3 +2515,4 @@
 </body>
 
 </html>
+```
